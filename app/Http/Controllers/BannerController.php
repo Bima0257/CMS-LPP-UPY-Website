@@ -18,9 +18,10 @@ class BannerController extends Controller
         if (!$banner) {
             $banner = Banner::create([
                 'banner_background' => null,
-                'footer_background' => null
+                'footer_background' => null,
             ]);
         }
+
         return view('admin.banner.index', compact('title', 'banner'));
     }
 
@@ -35,8 +36,8 @@ class BannerController extends Controller
         $banner = Banner::findOrFail($id);
 
         $validated = $request->validate([
-            'banner_background' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:1000',
-            'footer_background' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:1000',
+            'banner_background' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:5120',
+            'footer_background' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:5120',
         ]);
 
         // Upload banner_background dan hapus yang lama

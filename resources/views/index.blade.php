@@ -25,7 +25,7 @@
                             <div class="carousel-item__text">
                                 <div class="container">
                                     <h1>{!! $carousel->title ?? '' !!}</h1>
-                                    <p>{!! Str::limit(strip_tags($carousel->description ?? ''), 120) !!}</p>
+                                    <p>{!! \Illuminate\Support\Str::limit(strip_tags($carousel->description ?? ''), 120) !!}</p>
                                 </div>
                             </div>
 
@@ -149,7 +149,7 @@
                                 </p>
 
                                 <p class="ud-feature-desc mb-2">
-                                    {!! Str::limit(strip_tags($document->description), 55) !!}
+                                    {!! \Illuminate\Support\Str::limit(strip_tags($document->description), 55) !!}
                                 </p>
 
                                 <button class="btn btn-link text-primary p-0 mb-3 see-more-btn" data-bs-toggle="modal"
@@ -343,7 +343,7 @@
                                                     </h3>
 
                                                     <div class="ud-blog-desc small mb-0 text-muted">
-                                                        {!! Str::words(strip_tags($post->content ?? '-'), 15, '...') !!}
+                                                        {!! \Illuminate\Support\Str::words(strip_tags($post->content ?? '-'), 15, '...') !!}
                                                     </div>
                                                 </div>
                                             </div>
@@ -395,7 +395,7 @@
                                                 </h3>
 
                                                 <p class="ud-blog-desc small mb-0 text-muted">
-                                                    {!! Str::words(strip_tags($post->content) ?? '-', 15, '...') !!}
+                                                    {!! \Illuminate\Support\Str::words(strip_tags($post->content) ?? '-', 15, '...') !!}
                                                 </p>
                                             </div>
                                         </div>
@@ -797,7 +797,7 @@
                                     $number = preg_replace('/[^0-9]/', '', $contact);
 
                                     // ubah jika diawali 0 → ganti jadi 62
-                                    if (Str::startsWith($number, '0')) {
+                                    if (\Illuminate\Support\Str::startsWith($number, '0')) {
                                         $number = '62' . substr($number, 1);
                                     }
 

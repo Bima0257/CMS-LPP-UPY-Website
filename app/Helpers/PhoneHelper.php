@@ -12,11 +12,11 @@ class PhoneHelper
 
         $phone = preg_replace('/[^0-9]/', '', $phone);
 
-        if (str_starts_with($phone, '08')) {
+        if (substr($phone, 0, 2) === '08') {
             return '628' . substr($phone, 2);
         }
 
-        if (str_starts_with($phone, '62')) {
+        if (substr($phone, 0, 2) === '62') {
             return $phone;
         }
 

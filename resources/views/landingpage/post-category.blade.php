@@ -75,7 +75,7 @@
                                     </a>
                                 </h3>
                                 <p class="ud-blog-desc">
-                                    {!! Str::words($post->content, 11, '...') !!}
+                                    {!! \Illuminate\Support\Str::words($post->content, 11, '...') !!}
                                 </p>
                             </div>
                         </div>

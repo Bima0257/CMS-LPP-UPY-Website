@@ -101,7 +101,7 @@
                                             <div class="ud-article-content">
                                                 <h5 class="ud-article-title">
                                                     <a href="{{ route('post.show', $popular->slug) }}">
-                                                        {{ Str::limit($popular->title, 60) }}
+                                                        {{ \Illuminate\Support\Str::limit($popular->title, 60) }}
                                                     </a>
                                                 </h5>
                                                 <p class="ud-article-author">
@@ -147,11 +147,11 @@
                                     </span>
                                     <h3 class="ud-blog-title">
                                         <a href="{{ route('post.show', $related->slug) }}">
-                                            {{ Str::limit($related->title, 60) }}
+                                            {{ \Illuminate\Support\Str::limit($related->title, 60) }}
                                         </a>
                                     </h3>
                                     <p class="ud-blog-desc">
-                                        {{ Str::limit(strip_tags($related->content), 100) }}
+                                        {{ \Illuminate\Support\Str::limit(strip_tags($related->content), 100) }}
                                     </p>
                                 </div>
                             </div>

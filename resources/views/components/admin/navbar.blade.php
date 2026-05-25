@@ -65,7 +65,7 @@
                                     <div class="flex-1">
                                         <h6 class="mb-1">{{ $msg->name }}</h6>
                                         <div class="font-size-12 text-muted">
-                                            <p class="mb-1">{{ Str::limit($msg->subject, 40) }}</p>
+                                            <p class="mb-1">{{ \Illuminate\Support\Str::limit($msg->subject, 40) }}</p>
                                             <p class="mb-0"><i class="mdi mdi-clock-outline"></i>
                                                 {{ $msg->created_at->diffForHumans() }}</p>
                                         </div>

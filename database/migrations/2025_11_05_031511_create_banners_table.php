@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('banners', function (Blueprint $table) {
             $table->id();
-            $table->string('banner_background');
-            $table->string('footer_background');
+            $table->string('banner_background')->nullable();
+            $table->string('footer_background')->nullable();
             $table->timestamps();
         });
     }

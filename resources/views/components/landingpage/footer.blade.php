@@ -11,7 +11,7 @@
                                 alt="logo" />
                         </a>
                         <div class="ud-widget-desc">
-                            {!! Str::words($about->description ?? '-', 15, '...') !!}
+                            {!! \Illuminate\Support\Str::words($about->description ?? '-', 15, '...') !!}
                         </div>
                         <ul class="list-unstyled text-white">
                             <li class="mb-2">
@@ -40,7 +40,7 @@
                                 $number = preg_replace('/[^0-9]/', '', $contact);
 
                                 // ubah jika diawali 0 → ganti jadi 62
-                                if (Str::startsWith($number, '0')) {
+                                if (\Illuminate\Support\Str::startsWith($number, '0')) {
                                     $number = '62' . substr($number, 1);
                                 }
 

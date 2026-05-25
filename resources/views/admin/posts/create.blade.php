@@ -109,8 +109,9 @@
                                 </div>
                             </div>
 
+                        </div>
 
-                            {{-- Konten --}}
+                            {{--cKontetn --}}
                             <div class="mb-3">
                                 <label for="content" class="col-form-label">Konten</label>
                                 <textarea name="content" id="content" rows="6" class="form-control @error('content') is-invalid @enderror"
@@ -119,8 +120,6 @@
                                     <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
                             </div>
-
-                        </div>
 
                         {{-- Tombol --}}
                         <div class="modal-footer gap-2">
@@ -137,5 +136,7 @@
 </x-admin.layout>
 
 <script>
-    initTiny('#content');
+    document.addEventListener('DOMContentLoaded', function() {
+        initQuill('#content');
+    });
 </script>

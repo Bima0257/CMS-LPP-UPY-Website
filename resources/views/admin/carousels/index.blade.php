@@ -47,7 +47,7 @@
                                             width="50" height="50"
                                             style="object-fit: cover; box-shadow: 0 0 5px rgba(0,0,0,0.2);">
                                     </td>
-                                    <td>{{ $carousel->title }}</td>
+                                    <td>{{ \Illuminate\Support\Str::limit($carousel->title, 50) }}</td>
                                     <td>
                                         @if ($carousel->is_published)
                                             <span class="badge bg-success">Published</span>

@@ -30,7 +30,7 @@
                             @foreach ($workPrograms as $proker)
                                 <tr>
                                     <td>{{ $loop->iteration }}</td>
-                                    <td>{{ $proker->name }}</td>
+                                    <td>{{ \Illuminate\Support\Str::limit($proker->name, 50) }}</td>
                                     <td
                                         data-order="{{ \Carbon\Carbon::parse($proker->tgl_pelaksanaan)->format('Y-m-d') }}">
                                         {{ \Carbon\Carbon::parse($proker->tgl_pelaksanaan)->format('d M Y') }}

@@ -182,7 +182,7 @@
                                     </a>
                                 </h3>
                                 <p class="ud-blog-desc">
-                                    {!! Str::words(strip_tags($post->content ?? '-'), 15, '...') !!}
+                                    {!! \Illuminate\Support\Str::words(strip_tags($post->content ?? '-'), 15, '...') !!}
                                 </p>
                             </div>
                         </div>

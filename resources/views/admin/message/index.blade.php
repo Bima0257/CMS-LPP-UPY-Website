@@ -42,7 +42,7 @@
                                         <td>{{ $msg->origin ?? '-' }}</td>
                                         <td>{{ $msg->email }}</td>
                                         <td>{{ $msg->phone }}</td>
-                                        <td>{{ Str::limit($msg->message, 10, '...') }}</td>
+                                        <td>{{ \Illuminate\Support\Str::limit($msg->message, 10, '...') }}</td>
                                         <td>{{ $msg->created_at->format('d M Y H:i') }}</td>
                                         <td>
                                             @if ($msg->is_read)
@@ -290,9 +290,11 @@
 
                         // Realtime ubah tampilan tabel
                         const badge = row.querySelector('.badge');
-                        badge.classList.remove('bg-secondary');
-                        badge.classList.add('bg-success');
-                        badge.textContent = 'Dibaca';
+                        if (badge) {
+                            badge.classList.remove('bg-secondary');
+                            badge.classList.add('bg-success');
+                            badge.textContent = 'Dibaca';
+                        }
                         row.classList.remove('table-warning');
                     })
                     .catch(error => console.error(error));

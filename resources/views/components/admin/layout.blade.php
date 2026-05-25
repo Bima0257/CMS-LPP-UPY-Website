@@ -47,6 +47,8 @@
     <!-- Sweet Alert-->
     <link href="{{ asset('assets_admin/libs/sweetalert2/sweetalert2.min.css') }}" rel="stylesheet" type="text/css" />
 
+    <link href="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.snow.css" rel="stylesheet">
+
 
 </head>
 
@@ -126,6 +128,8 @@
     <!-- apexcharts -->
     <script src="{{ asset('assets_admin/libs/apexcharts/apexcharts.min.js') }}"></script>
 
+    <script src="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.js"></script>
+
 
     <script>
         let isBackForward = false;
@@ -149,77 +153,79 @@
             fetch('/heartbeat');
         }, 180000); // 3 menit
 
-        function initTiny(selector) {
-            tinymce.init({
-                selector: selector,
-                menubar: false,
-                branding: false,
-                statusbar: false,
-                plugins: 'wordcount paste lists advlist',
-                toolbar: 'undo redo | bold italic underline | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | removeformat',
-                paste_webkit_styles: "all",
-                paste_merge_formats: true,
+        function initQuill(selector) {
+            const el = document.querySelector(selector);
+            if (!el) return null;
 
-                valid_elements: "p[style|align|class],span[style|class],br,strong,em,b,i,u," +
-                    "ul[style|class],ol[style|type|start|class],li[style|class]," +
-                    "a[href|target|rel|style|class]",
+            // Buat wrapper container
+            const wrapperId = 'quill-container-' + selector.replace('#', '');
+            const hiddenId = 'quill-hidden-' + selector.replace('#', '');
 
-                valid_styles: {
-                    '*': 'text-align,text-indent,margin,margin-left,margin-right,padding,' +
-                        'padding-left,padding-right,list-style,list-style-type,' +
-                        'background,background-color,line-height'
-                },
+            // Sembunyikan textarea/input asli
+            el.style.display = 'none';
 
-                paste_preprocess: function(plugin, args) {
-                    const doc = new DOMParser().parseFromString(args.content, 'text/html');
+            // Buat div editor
+            const editorDiv = document.createElement('div');
+            editorDiv.id = wrapperId;
+            editorDiv.style.minHeight = '200px';
+            el.parentNode.insertBefore(editorDiv, el.nextSibling);
 
-                    doc.querySelectorAll('[style]').forEach(el => {
-                        let style = el.getAttribute('style') || '';
-
-                        const tabMatch = style.match(/mso-tab-count:\s*(\d+)/i);
-                        if (tabMatch) {
-                            const tabCount = parseInt(tabMatch[1], 10);
-                            const indentPt = tabCount * 36;
-                            el.style.textIndent = indentPt + "pt";
-                        }
-
-                        if (/mso-text-justify/i.test(style)) {
-                            el.style.textAlign = "justify";
-                        }
-
-                        style = style.replace(/font(-[^:]+)?:[^;]+;?/gi, '');
-                        style = style.replace(/mso-[^:]+:[^;]+;?/gi, '');
-
-                        const keep = [];
-                        const keepProps = [
-                            'text-align',
-                            'text-indent',
-                            'margin-left',
-                            'margin-right',
-                            'padding-left',
-                            'padding-right',
-                            'list-style',
-                            'list-style-type',
-                            'background',
-                            'background-color',
-                            'line-height'
-                        ];
-
-                        style.split(';').forEach(s => {
-                            const prop = s.trim().split(':')[0];
-                            if (keepProps.includes(prop)) keep.push(s.trim());
-                        });
-
-                        if (keep.length) {
-                            el.setAttribute('style', keep.join('; '));
-                        } else {
-                            el.removeAttribute('style');
-                        }
-                    });
-
-                    args.content = doc.body.innerHTML;
+            const quill = new Quill('#' + wrapperId, {
+                theme: 'snow',
+                modules: {
+                    toolbar: [
+                        ['bold', 'italic', 'underline', 'strike'],
+                        [{
+                            'list': 'ordered'
+                        }, {
+                            'list': 'bullet'
+                        }],
+                        [{
+                            'indent': '-1'
+                        }, {
+                            'indent': '+1'
+                        }],
+                        [{
+                            'align': []
+                        }],
+                        ['clean']
+                    ],
+                    clipboard: {
+                        matchVisual: false
+                    }
                 }
             });
+
+            // Sync isi quill ke textarea/input asli
+            quill.on('text-change', function() {
+                el.value = quill.root.innerHTML;
+            });
+
+            // Set value awal jika textarea sudah ada isinya
+            if (el.value) {
+                quill.root.innerHTML = el.value;
+            }
+
+            return quill;
+        }
+
+        // Helper: ambil instance quill dari selector
+        function getQuill(selector) {
+            const wrapperId = 'quill-container-' + selector.replace('#', '');
+            const container = document.querySelector('#' + wrapperId);
+            return container ? Quill.find(container) : null;
+        }
+
+        // Helper: set konten quill
+        function setQuillContent(selector, html) {
+            const q = getQuill(selector);
+            if (q) q.root.innerHTML = html;
+        }
+
+        // Helper: get konten quill
+        function getQuillContent(selector) {
+            const q = getQuill(selector);
+            return q ? q.root.innerHTML : '';
         }
 
 

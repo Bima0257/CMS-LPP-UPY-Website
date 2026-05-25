@@ -30,12 +30,12 @@
                                 <tr>
                                     <td>{{ $loop->iteration }}</td>
                                     <td>{{ $service->name }}</td>
-                                    <td>{!! Str::words(strip_tags($service->description), 7, '...') !!}</td>
+                                    <td>{!! \Illuminate\Support\Str::words(strip_tags($service->description), 7, '...') !!}</td>
                                     <td>
                                         @if ($service->link)
-                                            <a href="{{ filter_var($service?->link, FILTER_VALIDATE_URL) ? $service->link : '#' }}" target="_blank"
-                                                class="text-decoration-none text-primary">
-                                                {{ Str::limit($service->link, 30) }}
+                                            <a href="{{ filter_var($service?->link, FILTER_VALIDATE_URL) ? $service->link : '#' }}"
+                                                target="_blank" class="text-decoration-none text-primary">
+                                                {{ \Illuminate\Support\Str::limit($service->link, 30) }}
                                             </a>
                                         @else
                                             <span>-</span>

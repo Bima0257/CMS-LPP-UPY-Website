@@ -9,8 +9,10 @@
                     {{-- Banner Background --}}
                     <div class="col-md-5">
                         <div class="card shadow-sm h-100">
-                            <img src="{{ $banner->banner_background ? asset('storage/' . $banner->banner_background) : asset('assets/images/background/background-default.jpg') }}"
-                                class="card-img-top rounded"
+                            <img src="{{ $banner->banner_background
+                                ? asset('storage/' . $banner->banner_background)
+                                : asset('assets/images/background/background-default.jpg') }}"
+                                alt="Banner Background" class="card-img-top rounded"
                                 style="height: 220px; object-fit: cover; width: 100%; border-radius: .5rem;">
                             <div class="card-body text-center">
                                 <h6 class="card-title mb-2">Banner Background</h6>
@@ -25,8 +27,10 @@
                     {{-- Footer Background --}}
                     <div class="col-md-5">
                         <div class="card shadow-sm h-100">
-                            <img src="{{ $banner->footer_background ? asset('storage/' . $banner->footer_background) : asset('assets/images/background/background-default.jpg') }}"
-                                class="card-img-top rounded"
+                            <img src="{{ $banner->footer_background
+                                ? asset('storage/' . $banner->footer_background)
+                                : asset('assets/images/background/background-default.jpg') }}"
+                                alt="Footer Background" class="card-img-top rounded"
                                 style="height: 220px; object-fit: cover; width: 100%; border-radius: .5rem;">
                             <div class="card-body text-center">
                                 <h6 class="card-title mb-2">Footer Background</h6>

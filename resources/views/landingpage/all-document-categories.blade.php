@@ -48,7 +48,7 @@
                                 </a>
                             </h5>
                             <p class="text-muted small mb-0">
-                                {!! Str::limit($category->description, 60) !!}
+                                {!! \Illuminate\Support\Str::limit($category->description, 60) !!}
                             </p>
 
                             <button class="btn btn-link text-primary p-0 mb-3 see-more-btn text-center"

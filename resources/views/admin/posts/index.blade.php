@@ -34,7 +34,7 @@
                                     <td data-order="{{ \Carbon\Carbon::parse($post->date)->format('Y-m-d') }}">
                                         {{ \Carbon\Carbon::parse($post->date)->format('d M Y') }}</td>
                                     <td>{{ $post->category?->name ?? '-' }}</td>
-                                    <td>{{ $post->title }}</td>
+                                    <td>{{ \Illuminate\Support\Str::limit($post->title, 50) }}</td>
                                     <td>
                                         @if ($post->is_published)
                                             <span class="badge bg-success">Published</span>

@@ -57,32 +57,34 @@
                                 </div>
                             </div>
 
-                            {{-- Deskripsi --}}
-                            <div class="mb-3">
-                                <label for="description" class="col-form-label">Deskripsi</label>
-                                <textarea name="description" id="description" rows="4"
-                                    class="form-control @error('description') is-invalid @enderror" placeholder="Masukkan deskripsi singkat" required>{{ old('description') }}</textarea>
-                                @error('description')
-                                    <div class="invalid-feedback">{{ $message }}</div>
-                                @enderror
-                            </div>
-
-                            {{-- Status Publikasi --}}
-                            <div class="mb-3">
-                                <label for="is_published" class="col-form-label">Status Publikasi</label>
-                                <select name="is_published" id="is_published"
-                                    class="form-select @error('is_published') is-invalid @enderror" required>
-                                    <option value="1" {{ old('is_published') == '1' ? 'selected' : '' }}>Public
-                                    </option>
-                                    <option value="0" {{ old('is_published') == '0' ? 'selected' : '' }}>Draft
-                                    </option>
-                                </select>
-                                @error('is_published')
-                                    <div class="invalid-feedback">{{ $message }}</div>
-                                @enderror
-                            </div>
 
                         </div>
+
+                        {{-- Deskripsi --}}
+                        <div class="mb-3">
+                            <label for="description" class="col-form-label">Deskripsi</label>
+                            <textarea name="description" id="description" rows="4"
+                                class="form-control @error('description') is-invalid @enderror" placeholder="Masukkan deskripsi singkat" required>{{ old('description') }}</textarea>
+                            @error('description')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+
+                        {{-- Status Publikasi --}}
+                        <div class="mb-3">
+                            <label for="is_published" class="col-form-label">Status Publikasi</label>
+                            <select name="is_published" id="is_published"
+                                class="form-select @error('is_published') is-invalid @enderror" required>
+                                <option value="1" {{ old('is_published') == '1' ? 'selected' : '' }}>Public
+                                </option>
+                                <option value="0" {{ old('is_published') == '0' ? 'selected' : '' }}>Draft
+                                </option>
+                            </select>
+                            @error('is_published')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+
 
                         {{-- Tombol --}}
                         <div class="modal-footer gap-2">
@@ -98,15 +100,7 @@
 </x-admin.layout>
 
 <script>
-    tinymce.init({
-        selector: '#description',
-        menubar: false,
-        plugins: 'wordcount',
-        branding: false,
-        statusbar: false,
-        forced_root_block: '', // agar tidak auto-wrap dengan <p>
-        valid_elements: 'strong,em,span,b,i,u', // hanya izinkan tag dasar teks
-        invalid_elements: 'img,table,a,video,audio,iframe,div',
-        placeholder: 'Masukkan deskripsi singkat...',
+    document.addEventListener('DOMContentLoaded', function() {
+        initQuill('#description');
     });
 </script>

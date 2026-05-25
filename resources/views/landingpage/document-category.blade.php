@@ -82,7 +82,7 @@
                                 </p>
 
                                 <p class="ud-feature-desc mb-2">
-                                    {!! Str::limit(strip_tags($document->description), 55) !!}
+                                    {!! \Illuminate\Support\Str::limit(strip_tags($document->description), 55) !!}
                                 </p>
 
                                 <button class="btn btn-link text-primary p-0 mb-3 see-more-btn" data-bs-toggle="modal"

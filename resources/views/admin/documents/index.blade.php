@@ -33,7 +33,7 @@
                             @foreach ($documents as $document)
                                 <tr>
                                     <td>{{ $loop->iteration }}</td>
-                                    <td>{{ $document->title }}</td>
+                                    <td>{{ \Illuminate\Support\Str::limit($document->title, 50) }}</td>
                                     <td>{{ $document->category->name ?? '-' }}</td>
                                     <td>{{ $document->author->name ?? '-' }}</td>
                                     <td data-order="{{ \Carbon\Carbon::parse($document->date)->format('Y-m-d') }}">
@@ -96,6 +96,47 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
+
+                    <div id="skeletonForm" style="display:none;">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <div class="skeleton skeleton-label"></div>
+                                    <div class="skeleton skeleton-input"></div>
+                                </div>
+                                <div class="mb-3">
+                                    <div class="skeleton skeleton-label"></div>
+                                    <div class="skeleton skeleton-input"></div>
+                                </div>
+                                <div class="mb-3">
+                                    <div class="skeleton skeleton-label"></div>
+                                    <div class="skeleton skeleton-input"></div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <div class="skeleton skeleton-label"></div>
+                                    <div class="skeleton skeleton-input"></div>
+                                </div>
+                                <div class="mb-3">
+                                    <div class="skeleton skeleton-label"></div>
+                                    <div class="skeleton skeleton-input"></div>
+                                </div>
+                                <div class="mb-3">
+                                    <div class="skeleton skeleton-label"></div>
+                                    <div class="skeleton skeleton-input"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <div class="skeleton skeleton-label"></div>
+                            <div class="skeleton skeleton-textarea"></div>
+                        </div>
+                        <div class="mb-3">
+                            <div class="skeleton skeleton-label"></div>
+                            <div class="skeleton skeleton-input"></div>
+                        </div>
+                    </div>
 
                     <form action="{{ route('documents-management.store') }}" id="documentForm" method="POST"
                         enctype="multipart/form-data">
@@ -202,34 +243,35 @@
                                 </div>
                             </div>
 
-                            {{-- Deskripsi --}}
-                            <div class="mb-3">
-                                <label for="description" class="col-form-label">Deskripsi</label>
-                                <textarea name="description" id="description" rows="4"
-                                    class="form-control @error('description') is-invalid @enderror" placeholder="Masukkan deskripsi singkat">{{ old('description') }}</textarea>
-                                @error('description')
-                                    <div class="invalid-feedback">{{ $message }}</div>
-                                @enderror
-                            </div>
-
-
-                            {{-- Status Publikasi --}}
-                            <div class="mb-3">
-                                <label for="is_published" class="col-form-label">Status Publikasi</label>
-                                <select name="is_published" id="is_published"
-                                    class="form-select @error('is_published') is-invalid @enderror">
-                                    <option value="1" {{ old('is_published') == '1' ? 'selected' : '' }}>
-                                        Published</option>
-                                    <option value="0" {{ old('is_published') == '0' ? 'selected' : '' }}>
-                                        Draft
-                                    </option>
-                                </select>
-                                @error('is_published')
-                                    <div class="invalid-feedback">{{ $message }}</div>
-                                @enderror
-                            </div>
-
                         </div>
+
+                        {{-- Deskripsi --}}
+                        <div class="mb-3">
+                            <label for="description" class="col-form-label">Deskripsi</label>
+                            <textarea name="description" id="description" rows="4"
+                                class="form-control @error('description') is-invalid @enderror" placeholder="Masukkan deskripsi singkat">{{ old('description') }}</textarea>
+                            @error('description')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+
+
+                        {{-- Status Publikasi --}}
+                        <div class="mb-3">
+                            <label for="is_published" class="col-form-label">Status Publikasi</label>
+                            <select name="is_published" id="is_published"
+                                class="form-select @error('is_published') is-invalid @enderror">
+                                <option value="1" {{ old('is_published') == '1' ? 'selected' : '' }}>
+                                    Published</option>
+                                <option value="0" {{ old('is_published') == '0' ? 'selected' : '' }}>
+                                    Draft
+                                </option>
+                            </select>
+                            @error('is_published')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+
 
                         <div class="modal-footer">
                             <button type="button" class="btn btn-light waves-effect"
@@ -243,13 +285,51 @@
         </div><!-- /.modal-dialog -->
     </div><!-- /.modal -->
 
+    <style>
+        .skeleton {
+            background: #e0e0e0;
+            border-radius: 4px;
+            animation: skeleton-pulse 1.5s ease-in-out infinite;
+        }
+
+        @keyframes skeleton-pulse {
+            0% {
+                background-color: #e0e0e0;
+            }
+
+            50% {
+                background-color: #f0f0f0;
+            }
+
+            100% {
+                background-color: #e0e0e0;
+            }
+        }
+
+        .skeleton-input {
+            height: 38px;
+            width: 100%;
+            margin-bottom: 4px;
+        }
+
+        .skeleton-label {
+            height: 16px;
+            width: 40%;
+            margin-bottom: 8px;
+        }
+
+        .skeleton-textarea {
+            height: 120px;
+            width: 100%;
+        }
+    </style>
 
 </x-admin.layout>
 
 <script>
-    initTiny('#description');
-
     document.addEventListener('DOMContentLoaded', function() {
+        initQuill('#description');
+
         const togglePassword = document.getElementById('togglePassword');
         const passwordInput = document.getElementById('access_password');
 
@@ -295,9 +375,7 @@
             // Reset teks header & action form
             $('#myModalLabel').text('Tambah Dokumen');
             $('#documentForm').attr('action', '/documents-management');
-            if (tinymce.get('description')) {
-                tinymce.get('description').setContent('');
-            }
+            setQuillContent('#description', '');
 
             // Reset tampilan proteksi & password akses
             $('#is_protected').val('0');
@@ -331,21 +409,21 @@
             // Ubah action form
             $form.attr('action', '/documents-management/' + id);
 
+            $('#modal').modal('show');
+            $('#skeletonForm').show();
+            $('#documentForm').hide();
+
+
             // Ambil data dokumen via AJAX
             $.ajax({
                 url: '/documents-management/' + id + '/edit',
                 type: 'GET',
-                beforeSend: function() {
-                    showLoading('Memproses...');
-                },
                 success: function(data) {
                     // Isi form dengan data dokumen
                     $('#title').val(data.title);
                     $('#category_id').val(data.category_id);
                     $('#date').val(data.date);
-                    if (tinymce.get('description')) {
-                        tinymce.get('description').setContent(data.description || '');
-                    }
+                    setQuillContent('#description', data.description || '');
                     $('#is_published').val(data.is_published ? '1' : '0');
                     $('#is_protected').val(data.is_protected ? '1' : '0');
 
@@ -375,10 +453,13 @@
                     // Reset file input (jangan menampilkan file lama di input)
                     $('#file_path').val('');
 
-                    $('#modal').modal('show');
+                    $('#skeletonForm').hide();
+                    $('#documentForm').show();
                 },
                 error: function(xhr) {
                     console.error(xhr.responseText);
+                    $('#skeletonForm').hide();
+                    $('#documentForm').show();
                     alert('Gagal memuat data dokumen.');
                 }
             });

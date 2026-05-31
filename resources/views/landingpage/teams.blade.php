@@ -14,7 +14,6 @@
                 </div>
             </div>
         </div>
-        </div>
     </section>
     <!-- ====== Banner End ====== -->
 
@@ -76,9 +75,9 @@
                         </div>
                     </div>
                 @empty
-                    <div class="carousel-item active">
-                        <div class="row justify-content-center">
-                            <p class="text-center">Belum ada anggota tim yang ditambahkan.</p>
+                    <div class="col-12">
+                        <div class="text-center py-4">
+                            <p class="mb-0">Belum ada anggota tim yang ditambahkan.</p>
                         </div>
                     </div>
                 @endforelse

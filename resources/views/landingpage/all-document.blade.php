@@ -190,7 +190,7 @@
                 <div id="cardViewWrapper">
                     <div id="cardView" class="row">
                         @forelse ($all_document as $document)
-                            <div class="col-xl-3 col-lg-3 col-md-4 col-6 mb-4">
+                            <div class="col-xl-3 col-lg-3 col-md-4 col-sm-6 col-12 mb-4">
                                 <div class="ud-single-feature">
                                     <div class="ud-feature-icon">
                                         <i class="mdi {{ $document->icon_class }}"></i>
@@ -444,7 +444,7 @@
 
 
     @push('scripts')
-        <script src="{{ asset('js/document-page.js') }}" data-category=""></script>
+        <script src="{{ asset('js/document-page.js') }}"></script>
     @endpush
 
 </x-landingpage.layout>

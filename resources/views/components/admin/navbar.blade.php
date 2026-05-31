@@ -34,9 +34,8 @@
                 <button type="button" class="btn header-item noti-icon waves-effect"
                     id="page-header-notifications-dropdown" data-bs-toggle="dropdown" aria-expanded="false">
                     <i class="ri-notification-3-line"></i>
-                    @if ($unreadCount > 0)
-                        <span class="noti-dot"></span>
-                    @endif
+                    <span id="notificationDot" class="noti-dot {{ $unreadCount <= 0 ? 'd-none' : '' }}">
+                    </span>
                 </button>
 
                 <div class="dropdown-menu dropdown-menu-lg dropdown-menu-end p-0"
@@ -48,12 +47,19 @@
                                 <h6 class="m-0">Pesan Masuk</h6>
                             </div>
                             <div class="col-auto">
-                                <span class="badge bg-danger fs-6">{{ $unreadCount }}</span>
+
+                                <span id="notificationBadge"
+                                    class="badge bg-danger rounded-pill px-3 py-2 fs-6 {{ $unreadCount <= 0 ? 'd-none' : '' }}">
+
+                                    {{ $unreadCount }}
+
+                                </span>
+
                             </div>
                         </div>
                     </div>
 
-                    <div data-simplebar style="max-height: 230px;">
+                    <div data-simplebar id="notificationList" style="max-height: 230px;">
                         @forelse ($unreadMessages as $msg)
                             <a href="{{ route('admin.messages.index') }}" class="text-reset notification-item">
                                 <div class="d-flex">
@@ -65,7 +71,8 @@
                                     <div class="flex-1">
                                         <h6 class="mb-1">{{ $msg->name }}</h6>
                                         <div class="font-size-12 text-muted">
-                                            <p class="mb-1">{{ \Illuminate\Support\Str::limit($msg->subject, 40) }}</p>
+                                            <p class="mb-1">{{ \Illuminate\Support\Str::limit($msg->subject, 40) }}
+                                            </p>
                                             <p class="mb-0"><i class="mdi mdi-clock-outline"></i>
                                                 {{ $msg->created_at->diffForHumans() }}</p>
                                         </div>
@@ -121,3 +128,119 @@
         </div>
     </div>
 </header>
+
+<style>
+    .noti-dot {
+        animation: pulse 1.5s infinite;
+    }
+</style>
+
+<script>
+    function loadNotifications() {
+
+        fetch('/messages/notifications')
+
+            .then(response => response.json())
+
+            .then(data => {
+
+                const badge = document.getElementById('notificationBadge');
+
+                const dot = document.getElementById('notificationDot');
+
+                const list = document.getElementById('notificationList');
+
+                // =========================
+                // UPDATE BADGE & DOT
+                // =========================
+
+                if (data.count > 0) {
+
+                    badge.classList.remove('d-none');
+
+                    dot.classList.remove('d-none');
+
+                    badge.textContent = data.count;
+
+                } else {
+
+                    badge.classList.add('d-none');
+
+                    dot.classList.add('d-none');
+
+                }
+
+                // =========================
+                // UPDATE LIST
+                // =========================
+
+                let html = '';
+
+                if (data.messages.length > 0) {
+
+                    data.messages.forEach(msg => {
+
+                        html += `
+                        
+                        <a href="/messages"
+                            class="text-reset notification-item">
+
+                            <div class="d-flex">
+
+                                <div class="avatar-xs me-3">
+                                    <span class="avatar-title bg-primary rounded-circle font-size-16">
+                                        <i class="ri-mail-unread-line"></i>
+                                    </span>
+                                </div>
+
+                                <div class="flex-1">
+
+                                    <h6 class="mb-1">${msg.name}</h6>
+
+                                    <div class="font-size-12 text-muted">
+
+                                        <p class="mb-1">
+                                            ${msg.subject ?? '-'}
+                                        </p>
+
+                                        <p class="mb-0">
+                                            <i class="mdi mdi-clock-outline"></i>
+                                            Pesan baru
+                                        </p>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        </a>
+                    `;
+                    });
+
+                } else {
+
+                    html = `
+                    <div class="text-center text-muted p-3">
+                        Tidak ada pesan baru
+                    </div>
+                `;
+                }
+
+                list.innerHTML = html;
+
+            })
+
+            .catch(error => {
+
+                console.error('Notification error:', error);
+
+            });
+    }
+
+    // First load
+    loadNotifications();
+
+    // Realtime tiap 5 detik
+    setInterval(loadNotifications, 5000);
+</script>

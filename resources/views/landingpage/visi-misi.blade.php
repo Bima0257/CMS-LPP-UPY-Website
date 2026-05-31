@@ -14,7 +14,6 @@
                 </div>
             </div>
         </div>
-        </div>
     </section>
     <!-- ====== Banner End ====== -->
 
@@ -25,7 +24,7 @@
                 <div class="custom-about-wrapper wow fadeInUp" data-wow-delay=".2s">
                     <div class="custom-about-image mb-4">
                         <img src="{{ asset('storage/' . $about->image) }}"
-                            style="width:800px; height:400px; object-fit: cover;" alt="about-image" />
+                            class="img-fluid" style="max-width:800px; max-height:400px; width:100%; height:auto; object-fit: cover;" alt="about-image" />
                     </div>
                     <div class="custom-about-content-wrapper">
                         <div class="custom-about-content">
@@ -49,10 +48,8 @@
 
                 </div>
             @else
-                <div class="carousel-item active">
-                    <div class="row justify-content-center">
-                        <p class="text-center">Belum ada Content About.</p>
-                    </div>
+                <div class="text-center py-5">
+                    <p class="text-muted mb-0">Belum ada Content About.</p>
                 </div>
             @endif
         </div>

@@ -162,6 +162,8 @@ Route::middleware(['admin.auth'])->group(function () {
         ->parameters(['/work-programs' => 'workProgram']);
     // Work Program Route end
 
+    Route::get('/messages/notifications', [MessageController::class, 'notifications']);
+    Route::get('/messages/unread-count', [MessageController::class, 'unreadCount']);
     Route::get('/messages', [MessageController::class, 'index'])->name('admin.messages.index');
     Route::get('/messages/{id}', [MessageController::class, 'show'])->name('admin.messages.show');
     Route::delete('/messagesDelete/{id}', [MessageController::class, 'deleteMessage'])->name('admin.messages.delete');

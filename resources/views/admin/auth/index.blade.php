@@ -90,7 +90,8 @@
                                                     <label for="password" class="fw-semibold">Password</label>
 
                                                     <input type="password" class="form-control pe-5" id="password"
-                                                        name="password" placeholder="Enter password" required>
+                                                        name="password" placeholder="Enter password" autocomplete="off"
+                                                        required>
 
                                                     <!-- Toggle button di dalam div dengan posisi absolute -->
                                                     <button

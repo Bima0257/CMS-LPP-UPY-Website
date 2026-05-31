@@ -13,14 +13,14 @@ class BannerController extends Controller
     public function index()
     {
         $title = 'Banner Setting';
-        $banner = Banner::first();
 
-        if (!$banner) {
-            $banner = Banner::create([
+        $banner = Banner::firstOrCreate(
+            ['id' => 1],
+            [
                 'banner_background' => null,
                 'footer_background' => null,
-            ]);
-        }
+            ]
+        );
 
         return view('admin.banner.index', compact('title', 'banner'));
     }

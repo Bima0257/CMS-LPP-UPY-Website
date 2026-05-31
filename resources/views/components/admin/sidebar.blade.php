@@ -15,14 +15,7 @@
                         <span>Dashboard</span>
                     </a>
                 </li>
-                @can('superadmin-access')
-                    <li>
-                        <a href="/users-management" class=" waves-effect">
-                            <i class="ri-folder-user-line"></i>
-                            <span>Manajemen Akun</span>
-                        </a>
-                    </li>
-                @endcan
+
 
                 <li>
                     <a href="/work-programs" class=" waves-effect">
@@ -31,80 +24,134 @@
                     </a>
                 </li>
 
-                @can('superadmin-access')
-                    <li>
-                        <a href="/members" class=" waves-effect">
-                            <i class="ri-team-line"></i>
-                            <span>Manajemen Anggota</span>
-                        </a>
-                    </li>
-
-                    <li>
-                        <a href="/menu-setting" class=" waves-effect">
-                            <i class="ri-list-settings-line"></i>
-                            <span>Pengaturan Menu</span>
-                        </a>
-                    </li>
-
-                    <li>
-                        <a href="/carousels-management" class=" waves-effect">
-                            <i class="ri-layout-right-2-line"></i>
-                            <span>Konten Carousel</span>
-                        </a>
-                    </li>
-
-                    <li>
-                        <a href="/banner-setting" class=" waves-effect">
-                            <i class="ri-image-2-fill"></i>
-                            <span>Pengaturan Banner</span>
-                        </a>
-                    </li>
-                @endcan
                 <li>
-                    <a href="/documents-management" class=" waves-effect">
+                    <a href="javascript: void(0);" class="has-arrow waves-effect">
+                        <i class="ri-settings-3-line"></i>
+                        <span>Manajemen Sistem</span>
+                    </a>
+
+                    <ul class="sub-menu" aria-expanded="false">
+
+                        @can('superadmin-access')
+                            <li>
+                                <a href="/users-management" class=" waves-effect">
+                                    <i class="ri-folder-user-line"></i>
+                                    <span>Manajemen Akun</span>
+                                </a>
+                            </li>
+
+                            <li>
+                                <a href="/members" class=" waves-effect">
+                                    <i class="ri-team-line"></i>
+                                    <span>Manajemen Anggota</span>
+                                </a>
+                            </li>
+                        @endcan
+                    </ul>
+                </li>
+
+                <li>
+                    <a href="javascript: void(0);" class="has-arrow waves-effect">
+                        <i class="ri-global-line"></i>
+                        <span>Konten Website</span>
+                    </a>
+
+                    <ul class="sub-menu" aria-expanded="false">
+
+                        @can('superadmin-access')
+                            <li>
+                                <a href="/menu-setting" class=" waves-effect">
+                                    <i class="ri-list-settings-line"></i>
+                                    <span>Pengaturan Menu</span>
+                                </a>
+                            </li>
+
+                            <li>
+                                <a href="/carousels-management" class=" waves-effect">
+                                    <i class="ri-layout-right-2-line"></i>
+                                    <span>Konten Carousel</span>
+                                </a>
+                            </li>
+
+                            <li>
+                                <a href="/banner-setting" class=" waves-effect">
+                                    <i class="ri-image-2-fill"></i>
+                                    <span>Pengaturan Banner</span>
+                                </a>
+                            </li>
+
+
+                            <li>
+                                <a href="/services" class=" waves-effect">
+                                    <i class="ri-external-link-line"></i>
+                                    <span>Layanan</span>
+                                </a>
+                            </li>
+                        @endcan
+
+                    </ul>
+                </li>
+                <li>
+                    <a href="javascript: void(0);" class="has-arrow waves-effect">
                         <i class="ri-folder-2-line"></i>
                         <span>Dokumen</span>
                     </a>
+
+                    <ul class="sub-menu" aria-expanded="false">
+
+                        <li>
+                            <a href="/documents-management">
+                                <i class="ri-folder-2-line"></i> <span>Data Dokumen</span>
+                            </a>
+                        </li>
+
+                        @can('superadmin-access')
+                            <li>
+                                <a href="/documents-categories" class=" waves-effect">
+                                    <i class="ri-function-line"></i>
+                                    <span>Kategori Dokumen</span>
+                                </a>
+                            </li>
+                        @endcan
+
+                    </ul>
                 </li>
 
 
                 <li>
-                    <a href="/posts-management" class=" waves-effect">
+                    <a href="javascript: void(0);" class="has-arrow waves-effect">
                         <i class="ri-article-line"></i>
                         <span>Artikel</span>
                     </a>
+
+                    <ul class="sub-menu" aria-expanded="false">
+
+                        <li>
+                            <a href="/posts-management">
+                                <i class="ri-article-line"></i> <span>Data Artikel</span>
+                            </a>
+                        </li>
+
+                        @can('superadmin-access')
+                            <li>
+                                <a href="/posts-categories" class=" waves-effect">
+                                    <i class="ri-apps-line"></i>
+                                    <span>Kategori Artikel</span>
+                                </a>
+                            </li>
+                        @endcan
+
+                    </ul>
                 </li>
-
-                @can('superadmin-access')
-                    <li>
-                        <a href="/documents-categories" class=" waves-effect">
-                            <i class="ri-function-line"></i>
-                            <span>Kategori Dokumen</span>
-                        </a>
-                    </li>
-
-                    <li>
-                        <a href="/posts-categories" class=" waves-effect">
-                            <i class="ri-apps-line"></i>
-                            <span>Kategori Artikel</span>
-                        </a>
-                    </li>
-
-                    <li>
-                        <a href="/services" class=" waves-effect">
-                            <i class="ri-external-link-line"></i>
-                            <span>Layanan</span>
-                        </a>
-                    </li>
-                @endcan
 
                 <li>
                     <a href="/messages" class=" waves-effect">
                         <i class="ri-chat-1-line"></i>
                         <span>Pesan</span>
-                        @if ($unreadCount > 0)
-                            <span class="badge bg-danger rounded-pill ms-2">{{ $unreadCount }}</span>
-                        @endif
+                        <span id="unreadBadge"
+                            class="badge bg-danger rounded-pill ms-2 {{ $unreadCount <= 0 ? 'd-none' : '' }}">
+                            {{ $unreadCount }}
+                        </span>
                     </a>
                 </li>
 
@@ -130,3 +177,41 @@
     </div>
 </div>
 <!-- Left Sidebar End -->
+
+<script>
+    function checkUnreadMessages() {
+
+        fetch('/messages/unread-count')
+            .then(response => response.json())
+            .then(data => {
+
+                const badge = document.getElementById('unreadBadge');
+
+                if (!badge) return;
+
+                if (data.count > 0) {
+
+                    badge.classList.remove('d-none');
+
+                    badge.textContent = data.count;
+
+                } else {
+
+                    badge.classList.add('d-none');
+
+                }
+
+            })
+            .catch(error => {
+
+                console.error('Error unread count:', error);
+
+            });
+    }
+
+    // First load
+    checkUnreadMessages();
+
+    // Realtime tiap 5 detik
+    setInterval(checkUnreadMessages, 5000);
+</script>

@@ -29,7 +29,7 @@
                             @foreach ($services as $service)
                                 <tr>
                                     <td>{{ $loop->iteration }}</td>
-                                    <td>{{ $service->name }}</td>
+                                    <td>{{ \Illuminate\Support\Str::limit($service->name, 30) }}</td>
                                     <td>{!! \Illuminate\Support\Str::words(strip_tags($service->description), 7, '...') !!}</td>
                                     <td>
                                         @if ($service->link)
@@ -75,7 +75,7 @@
     <!-- Modal Tambah/Edit -->
     <div id="modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
         aria-hidden="true">
-        <div class="modal-dialog">
+        <div class="modal-dialog modal-dialog-scrollable">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="myModalLabel">Tambah Layanan</h5>
@@ -99,7 +99,7 @@
 
 
                             {{-- Deskripsi --}}
-                            <div class="mb-3">
+                            <div class="mb-5">
                                 <label for="description" class="col-form-label">Deskripsi</label>
                                 <textarea name="description" id="description" rows="4"
                                     class="form-control @error('description') is-invalid @enderror" placeholder="Masukkan deskripsi singkat">{{ old('description') }}</textarea>
@@ -109,7 +109,7 @@
                             </div>
 
                             {{-- Link --}}
-                            <div class="mb-3">
+                            <div class="mb-3 mt-5">
                                 <label for="link" class="col-form-label">Link</label>
                                 <input type="string" name="link" id="link"
                                     class="form-control @error('link') is-invalid @enderror"
@@ -135,17 +135,7 @@
 </x-admin.layout>
 
 <script>
-    tinymce.init({
-        selector: '#description',
-        menubar: false,
-        plugins: 'wordcount',
-        branding: false,
-        statusbar: false,
-        forced_root_block: '', // agar tidak auto-wrap dengan <p>
-        valid_elements: 'strong,em,span,b,i,u', // hanya izinkan tag dasar teks
-        invalid_elements: 'img,table,a,video,audio,iframe,div',
-        placeholder: 'Masukkan deskripsi singkat...',
-    });
+    initQuill('#description');
 
     $(document).ready(function() {
         // Reset modal setiap kali ditutup
@@ -155,10 +145,7 @@
             $('#serviceForm input[name="_method"]').remove();
             $('#myModalLabel').text('Tambah Layanan');
             $('#serviceForm').attr('action', '/services');
-            // Kosongkan TinyMCE juga
-            if (tinymce.get('description')) {
-                tinymce.get('description').setContent('');
-            }
+            setQuillContent('#description', '');
         });
 
         // Tambah layanan
@@ -186,9 +173,7 @@
                 success: function(data) {
                     $('#name').val(data.name);
                     $('#link').val(data.link ?? '');
-                    if (tinymce.get('description')) {
-                        tinymce.get('description').setContent(data.description || '');
-                    }
+                     setQuillContent('#description', data.description || '');
                     $('#modal').modal('show');
                 },
                 error: function(xhr) {

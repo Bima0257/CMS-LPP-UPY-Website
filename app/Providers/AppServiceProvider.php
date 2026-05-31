@@ -47,7 +47,7 @@ class AppServiceProvider extends ServiceProvider
         Carbon::setLocale('id');
 
         // 🔔 Pesan belum dibaca (tanpa cache)
-        View::composer(['components.*', 'admin.navbar'], function ($view) {
+        View::composer(['components.admin.*', 'admin.navbar'], function ($view) {
             $unreadMessages = Message::where('is_read', 0)->latest()->take(5)->get();
             $unreadCount = Message::where('is_read', 0)->count();
 
@@ -55,7 +55,7 @@ class AppServiceProvider extends ServiceProvider
         });
 
         // Hanya untuk view components + sidebar (tanpa cache)
-        View::composer(['components.*', 'admin.sidebar'], function ($view) {
+        View::composer(['components.admin.*', 'admin.sidebar'], function ($view) {
             $unreadCount = Message::where('is_read', 0)->count();
             $view->with('unreadCount', $unreadCount);
         });

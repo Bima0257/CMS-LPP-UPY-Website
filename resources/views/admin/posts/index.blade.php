@@ -5,11 +5,11 @@
             <div class="card">
                 <div class="card-body">
 
-                    <h4 class="card-title text-center">Data Postingan</h4>
+                    <h4 class="card-title text-center">Data Artikel</h4>
 
                     <!-- Button trigger modal -->
                     <a href="{{ route('posts-management.create') }}" class="btn btn-primary mb-3 ">
-                        Tambah Postingan
+                        Tambah Artikel
                     </a>
 
                     <table id="datatable" class="table table-bordered dt-responsive nowrap"

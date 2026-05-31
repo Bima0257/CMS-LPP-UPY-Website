@@ -10,11 +10,11 @@
                                data-black="{{ $about?->black_logo ? asset('storage/' . $about->black_logo) : asset('assets/images/logo/black_logo.png') }}"
                                alt="Logo" />
                        </a>
-                       <button class="navbar-toggler">
-                           <span class="toggler-icon"></span>
-                           <span class="toggler-icon"></span>
-                           <span class="toggler-icon"></span>
-                       </button>
+                        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                            <span class="toggler-icon"></span>
+                            <span class="toggler-icon"></span>
+                            <span class="toggler-icon"></span>
+                        </button>
 
                        <div class="navbar-collapse">
                            <ul id="nav" class="navbar-nav mx-auto">

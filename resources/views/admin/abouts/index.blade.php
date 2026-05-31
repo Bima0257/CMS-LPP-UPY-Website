@@ -4,72 +4,69 @@
             <div class="card-body">
                 @if ($about)
                     <div class="row">
-                        <!-- Logo dan Informasi Singkat -->
-                        <div class="col-12 col-lg-7 border-end">
-                            <div class="card shadow-sm border-0">
-                                <div class="card-body">
-                                    <div class="d-flex flex-column flex-md-row align-items-center gap-4">
-                                        <!-- Logo -->
-                                        <div class="text-center">
-                                            <img src="{{ asset('storage/' . ($about->favicon ?? 'default-logo.png')) }}"
-                                                class="rounded-circle shadow-sm border" width="120" height="120"
-                                                alt="{{ $about->name ?? 'Logo Organisasi' }}">
-                                        </div>
 
-                                        <!-- Info Organisasi -->
-                                        <div class="grow text-center text-md-start">
-                                            <h4 class="mb-1 fw-bold">{{ $about->name ?? 'Nama Organisasi' }}</h4>
-                                            <div class="text-muted mb-3" style="text-align: justify;">
-                                                {!! $about->description ?? 'Deskripsi singkat organisasi belum ditambahkan.' !!}
-                                            </div>
+                        <div class="col-lg-6 text-center">
+                            <div class="text-center mb-2">
+                                <img src="{{ asset('storage/' . ($about->favicon ?? 'default-logo.png')) }}"
+                                    class="rounded-circle shadow-sm border" width="120" height="120"
+                                    alt="{{ $about->name ?? 'Logo Organisasi' }}">
+                            </div>
+                            <div class="text-center text-md-start">
+                                <h4 class="mb-4 fw-bold text-center">
+                                    {{ $about->name ?? 'Nama Organisasi' }}
+                                </h4>
 
-                                            <ul class="list-unstyled mb-0 small">
-                                                <li class="mb-1">
-                                                    <i class="ri-map-pin-line text-primary me-1"></i>
-                                                    {{ $about->address ?? '-' }}
-                                                </li>
-                                                <li class="mb-1">
-                                                    <i class="ri-mail-line text-primary me-1"></i>
-                                                    {{ $about->email ?? '-' }}
-                                                </li>
-                                                <li>
-                                                    <i class="ri-phone-line text-primary me-1"></i>
-                                                    {{ $about?->phone ?? '-' }}
-                                                </li>
-                                                <li>
-                                                    <i class="ri-instagram-line text-danger me-1"></i>
-                                                    @if (!empty($about->instagram_link))
-                                                        <a href="{{ $about->instagram_link }}" target="_blank"
-                                                            class="text-decoration-none text-dark">
-                                                            Instagram LPP
-                                                        </a>
-                                                    @else
-                                                        <span>-</span>
-                                                    @endif
-                                                </li>
-
-                                                <li>
-                                                    <i class="ri-youtube-line text-danger me-1"></i>
-                                                    @if (!empty($about->youtube_link))
-                                                        <a href="{{ $about->youtube_link }}" target="_blank"
-                                                            class="text-decoration-none text-dark">
-                                                            Youtube LPP
-                                                        </a>
-                                                    @else
-                                                        <span>-</span>
-                                                    @endif
-                                                </li>
-
-                                            </ul>
-                                        </div>
-                                    </div>
+                                <div class="text-muted mb-3" style="text-align: justify;">
+                                    {!! $about->description ?? 'Deskripsi singkat organisasi belum ditambahkan.' !!}
                                 </div>
+
+                                <ul class="list-unstyled mb-0 small">
+                                    <li class="mb-1">
+                                        <i class="ri-map-pin-line text-primary me-1"></i>
+                                        {{ $about->address ?? '-' }}
+                                    </li>
+
+                                    <li class="mb-1">
+                                        <i class="ri-mail-line text-primary me-1"></i>
+                                        {{ $about->email ?? '-' }}
+                                    </li>
+
+                                    <li class="mb-1">
+                                        <i class="ri-phone-line text-primary me-1"></i>
+                                        {{ $about?->phone ?? '-' }}
+                                    </li>
+
+                                    <li class="mb-1">
+                                        <i class="ri-instagram-line text-danger me-1"></i>
+
+                                        @if (!empty($about->instagram_link))
+                                            <a href="{{ $about->instagram_link }}" target="_blank"
+                                                class="text-decoration-none text-dark">
+                                                Instagram LPP
+                                            </a>
+                                        @else
+                                            <span>-</span>
+                                        @endif
+                                    </li>
+
+                                    <li>
+                                        <i class="ri-youtube-line text-danger me-1"></i>
+
+                                        @if (!empty($about->youtube_link))
+                                            <a href="{{ $about->youtube_link }}" target="_blank"
+                                                class="text-decoration-none text-dark">
+                                                Youtube LPP
+                                            </a>
+                                        @else
+                                            <span>-</span>
+                                        @endif
+                                    </li>
+                                </ul>
                             </div>
                         </div>
 
-
                         <!-- Logo besar -->
-                        <div class="col-12 col-lg-5 text-center">
+                        <div class="col-lg-6 text-center">
                             @if ($about->image)
                                 <img src="{{ asset('storage/' . $about->image) }}"
                                     class="img-fluid rounded shadow-sm mt-3 mt-lg-0" alt="Logo Besar">
@@ -319,7 +316,7 @@
 
                                             </div>
 
-                                            <div class="mb-3">
+                                            <div class="mb-5">
                                                 <label for="description" class="form-label">Deskripsi</label>
                                                 <textarea name="description" id="description" rows="4"
                                                     class="form-control @error('description') is-invalid @enderror">{{ old('description', $about->description) }}</textarea>
@@ -328,7 +325,7 @@
                                                 @enderror
                                             </div>
 
-                                            <div class="mb-3">
+                                            <div class="mb-5 mt-5">
                                                 <label for="vision" class="form-label">Visi</label>
                                                 <textarea name="vision" id="vision" rows="3" class="form-control @error('vision') is-invalid @enderror">{{ old('vision', $about->vision) }}</textarea>
                                                 @error('vision')
@@ -336,7 +333,7 @@
                                                 @enderror
                                             </div>
 
-                                            <div class="mb-3">
+                                            <div class="mb-5 mt-5">
                                                 <label for="mission" class="form-label">Misi</label>
                                                 <textarea name="mission" id="mission" rows="3" class="form-control @error('mission') is-invalid @enderror">{{ old('mission', $about->mission) }}</textarea>
                                                 @error('mission')
@@ -344,7 +341,7 @@
                                                 @enderror
                                             </div>
 
-                                            <div class="mb-3">
+                                            <div class="mb-5 mt-5">
                                                 <label for="purpose" class="form-label">Tujuan</label>
                                                 <textarea name="purpose" id="purpose" rows="3" class="form-control @error('purpose') is-invalid @enderror">{{ old('purpose', $about->purpose) }}</textarea>
                                                 @error('purpose')
@@ -354,7 +351,7 @@
 
                                         </div>
 
-                                        <div class="text-end mt-3">
+                                        <div class="text-end mt-5">
                                             <button type="submit" class="btn btn-primary px-4">
                                                 <i class="bx bx-save"></i> Simpan Perubahan
                                             </button>
@@ -378,5 +375,8 @@
 </x-admin.layout>
 
 <script>
-    initTiny('#description,#vision,#mission,#purpose');
+    initQuill('#description');
+    initQuill('#vision');
+    initQuill('#mission');
+    initQuill('#purpose');
 </script>

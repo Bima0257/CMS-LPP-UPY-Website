@@ -3,7 +3,7 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-body">
-                    <h4 class="card-title">Edit Carousel</h4>
+                    <h4 class="card-title">Edit Artikel</h4>
                     {{-- Form Update --}}
                     <form action="{{ route('posts-management.update', $post->id) }}" id="postForm" method="POST"
                         enctype="multipart/form-data">
@@ -76,7 +76,7 @@
 
                                 {{-- Tanggal Pelaksanaan --}}
                                 <div class="mb-3">
-                                    <label for="date" class="col-form-label">Tanggal Dokumen</label>
+                                    <label for="date" class="col-form-label">Tanggal Artikel</label>
                                     <input type="date" name="date" id="date"
                                         class="form-control @error('date') is-invalid @enderror"
                                         value="{{ old('date', $post->date) }}" required>

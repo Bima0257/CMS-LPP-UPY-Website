@@ -35,12 +35,12 @@ trait Searchable
 
                 // method = 'date' | 'month' | 'year'
                 match ($method) {
-                    'date'  => $q->orWhereDate('created_at', $value),
-                    'month' => $q->orWhereMonth('created_at', $value),
-                    'year'  => $q->orWhereYear('created_at', $value),
+                    'date'  => $q->orWhereDate('date', $value),
+                    'month' => $q->orWhereMonth('date', $value),
+                    'year'  => $q->orWhereYear('date', $value),
                     'month_year' => $q
-                        ->orWhereMonth('created_at', $value['month'])
-                        ->whereYear('created_at', $value['year']),
+                        ->orWhereMonth('date', $value['month'])
+                        ->whereYear('date', $value['year']),
                 };
             }
         });

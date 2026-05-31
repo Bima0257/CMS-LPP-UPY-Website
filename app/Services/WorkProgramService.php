@@ -4,23 +4,16 @@ namespace App\Services;
 
 use App\Models\WorkProgram;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Storage;
 
 class WorkProgramService
 {
 
-    public function store($request)
+    public function store(array $data): WorkProgram
     {
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'tgl_pelaksanaan' => 'required|date',
-            'is_published' => 'required|boolean',
-        ]);
-
         return WorkProgram::create([
-            'name' => $request->name,
-            'tgl_pelaksanaan' => $request->tgl_pelaksanaan,
-            'is_published' => $request->is_published,
+            'name' => $data['name'],
+            'tgl_pelaksanaan' => $data['tgl_pelaksanaan'],
+            'is_published' => $data['is_published'],
             'author_id' => Auth::id(),
         ]);
     }
@@ -28,24 +21,17 @@ class WorkProgramService
     /**
      * Update Work Program
      */
-    public function update($request, WorkProgram $workProgram)
+    public function update(array $data, WorkProgram $workProgram): WorkProgram
     {
-        // Validasi tetap dilakukan
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'tgl_pelaksanaan' => 'required|date',
-            'is_published' => 'required|boolean',
-        ]);
-
         // Cek akses
         if (Auth::user()->role !== 'superadmin' && $workProgram->author_id !== Auth::id()) {
             abort(403, 'Tidak memiliki izin.');
         }
 
         $workProgram->update([
-            'name' => $request->name,
-            'tgl_pelaksanaan' => $request->tgl_pelaksanaan,
-            'is_published' => $request->is_published,
+            'name' => $data['name'],
+            'tgl_pelaksanaan' => $data['tgl_pelaksanaan'],
+            'is_published' => $data['is_published'],
         ]);
 
         return $workProgram;
@@ -54,7 +40,7 @@ class WorkProgramService
     /**
      * Delete Work Program
      */
-    public function destroy(WorkProgram $workProgram)
+    public function destroy(WorkProgram $workProgram): ?bool
     {
         if (Auth::user()->role !== 'superadmin' && $workProgram->author_id !== Auth::id()) {
             abort(403, 'Tidak memiliki izin.');

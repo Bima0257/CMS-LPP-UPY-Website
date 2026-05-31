@@ -6,7 +6,7 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>{!! $title ?? 'Home' !!}</title>
+    <title>{{ $title ?? 'Home' }}</title>
     <!--====== Favicon Icon ======-->
     <link rel="shortcut icon"
         href="{{ $about?->favicon ? asset('storage/' . $about->favicon) : asset('assets/images/logo/favicon.png') }}" />
@@ -150,81 +150,76 @@
 
         $(document).ready(function() {
 
+            // =========================
+            // VALIDATION ERROR
+            // =========================
             @if ($errors->any())
+
                 Swal.fire({
+                    toast: true,
+                    position: 'top-end',
                     icon: 'error',
-                    title: 'Validasi Gagal',
+                    title: 'Validasi gagal',
                     html: `
-                <div style="text-align:left;">
-                    @foreach ($errors->all() as $error)
-                        <p class="text-danger text-center">{{ $error }}</p>
-                    @endforeach
-                </div>
-            `,
-                    showConfirmButton: true,
-                    confirmButtonColor: '#dc3545',
-                    confirmButtonText: 'Perbaiki',
-                    backdrop: `
-                rgba(0,0,0,0.4)
-                url("/assets/images/alert/error-bg.gif")
-                center top
-                no-repeat
-            `
+                    <div style="text-align:left;">
+                        @foreach ($errors->all() as $error)
+                            <div>{{ $error }}</div>
+                        @endforeach
+                    </div>
+                `,
+                    showConfirmButton: false,
+                    timer: 2000,
+                    timerProgressBar: true,
+                    customClass: {
+                        popup: 'colored-toast'
+                    }
                 });
             @endif
 
+
+            // =========================
+            // SUCCESS
+            // =========================
             @if (session('success'))
-                const messageId = 'success_message_{{ time() }}';
-                if (!sessionStorage.getItem(messageId)) {
-                    Swal.fire({
-                        icon: 'success',
-                        title: 'Berhasil!',
-                        text: '{{ session('success') }}',
-                        confirmButtonColor: '#0d6efd',
-                        confirmButtonText: 'OK',
-                        timer: 4000,
-                        timerProgressBar: true,
-                        showClass: {
-                            popup: 'animate__animated animate__fadeInDown'
-                        },
-                        hideClass: {
-                            popup: 'animate__animated animate__fadeOutUp'
-                        },
-                        backdrop: `
-                    rgba(0,0,0,0.3)
-                    url("/assets/images/alert/confetti.gif")
-                    center top
-                    no-repeat
-                `
-                    });
-                    sessionStorage.setItem(messageId, '1');
-                }
+
+                Swal.fire({
+                    toast: true,
+                    position: 'top-end',
+                    icon: 'success',
+                    title: '{{ session('success') }}',
+                    showConfirmButton: false,
+                    timer: 2000,
+                    timerProgressBar: true,
+                    showClass: {
+                        popup: 'animate__animated animate__fadeInRight'
+                    },
+                    hideClass: {
+                        popup: 'animate__animated animate__fadeOutRight'
+                    }
+                });
             @endif
 
+
+            // =========================
+            // ERROR
+            // =========================
             @if (session('error'))
-                const messageId = 'error_message_{{ time() }}';
-                if (!sessionStorage.getItem(messageId)) {
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Terjadi Kesalahan!',
-                        text: '{{ session('error') }}',
-                        confirmButtonColor: '#d33',
-                        confirmButtonText: 'OK',
-                        showClass: {
-                            popup: 'animate__animated animate__shakeX'
-                        },
-                        hideClass: {
-                            popup: 'animate__animated animate__fadeOutUp'
-                        },
-                        backdrop: `
-                    rgba(0,0,0,0.4)
-                    url("/assets/images/alert/error-bg.gif")
-                    center top
-                    no-repeat
-                `
-                    });
-                    sessionStorage.setItem(messageId, '1');
-                }
+
+                Swal.fire({
+                    toast: true,
+                    position: 'top-end',
+                    icon: 'error',
+                    title: '{{ session('error') }}',
+                    showConfirmButton: false,
+                    timer: 2000,
+                    timerProgressBar: true,
+                    showClass: {
+                        popup: 'animate__animated animate__shakeX'
+                    },
+                    hideClass: {
+                        popup: 'animate__animated animate__fadeOutRight'
+                    }
+                });
             @endif
 
         });

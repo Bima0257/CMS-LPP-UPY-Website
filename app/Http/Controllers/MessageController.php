@@ -97,4 +97,26 @@ class MessageController extends Controller
         Message::truncate();
         return back()->with('success', 'Semua Pesan telah berhasil dihapus!');
     }
+
+    public function unreadCount()
+    {
+        $count = Message::where('is_read', false)->count();
+
+        return response()->json([
+            'count' => $count
+        ]);
+    }
+
+    public function notifications()
+    {
+        $unreadMessages = Message::latest()
+            ->where('is_read', false)
+            ->take(5)
+            ->get();
+
+        return response()->json([
+            'count' => $unreadMessages->count(),
+            'messages' => $unreadMessages
+        ]);
+    }
 }

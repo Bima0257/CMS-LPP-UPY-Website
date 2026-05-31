@@ -52,7 +52,7 @@ class LandingpageController extends Controller
         });
 
         $members = Cache::remember('members', now()->addMinutes(10), function () {
-            return Member::take(4)->orderBy('sort_order', 'asc')->get();
+            return Member::orderBy('sort_order', 'asc')->take(4)->get();
         });
 
         $services = Cache::remember('services', now()->addMinutes(10), function () {

@@ -72,25 +72,6 @@ document.addEventListener("DOMContentLoaded", () => {
     );
 
     /* ==========================================================
-     *  Toggling Card Descriptions
-     * ========================================================== */
-
-    document.querySelectorAll('[id^="toggle-desc-"]').forEach((button) => {
-        button.addEventListener("click", () => {
-            const id = button.id.replace("toggle-desc-", "");
-            const desc = document.getElementById(`desc-${id}`);
-            const card = button.closest(".ud-single-feature");
-
-            desc.textContent = toggleText(
-                button,
-                button.dataset.short,
-                button.dataset.full,
-                card
-            );
-        });
-    });
-
-    /* ==========================================================
      *  Password Modal Logic
      * ========================================================== */
 

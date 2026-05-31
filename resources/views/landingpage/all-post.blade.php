@@ -42,7 +42,7 @@
                         <div class="search-input-wrapper"> <input type="text" name="search"
                                 value="{{ request('search') }}" class="form-control search-input"
                                 placeholder="Cari artikel berdasarkan judul atau konten..." autocomplete="off"
-                                data-suggest-url="{{ isset($category) ? route('post.suggestions', $category->slug) : (isset($author) ? route('post.suggestions', $author->name) : route('post.suggestions')) }}">
+                                data-suggest-url="{{ isset($category) ? route('post.suggestions', $category->slug) : route('post.suggestions') }}">
                             <!-- Tombol reset (X) --> <button type="button" class="reset-btn d-none" id="resetSearch"
                                 title="Hapus pencarian"> <i class="mdi mdi-close-circle-outline"></i> </button> </div>
                         <!-- Tombol search --> <button type="submit" class="btn btn-primary search-btn"> <i

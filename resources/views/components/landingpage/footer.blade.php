@@ -1,6 +1,6 @@
 <!-- ====== Footer Start ====== -->
 <footer class="ud-footer wow fadeInUp" data-wow-delay=".15s"
-    style="background-image: url('{{ $banner?->footer_background ? asset('storage/' . $banner->footer_background) : asset('assets/images/background/background-default.jpg') }}'); background-size: cover; background-position: center; background-repeat: no-repeat;">
+    style="background-color: #1a1a2e; background-image: url('{{ $banner?->footer_background ? asset('storage/' . $banner->footer_background) : asset('assets/images/background/background-default.jpg') }}'); background-size: cover; background-position: center; background-repeat: no-repeat;">
     <div class="ud-footer-widgets">
         <div class="container">
             <div class="row">
@@ -99,16 +99,7 @@
                                 @endforeach
                             @else
                                 <li>
-                                    <a href="#">How it works</a>
-                                </li>
-                                <li>
-                                    <a href="#">Privacy policy</a>
-                                </li>
-                                <li>
-                                    <a href="#">Terms of service</a>
-                                </li>
-                                <li>
-                                    <a href="#">Refund policy</a>
+                                    <a href="#">Belum ada kategori</a>
                                 </li>
                             @endif
                         </ul>
@@ -128,19 +119,7 @@
                                 @endforeach
                             @else
                                 <li>
-                                    <a href="#" rel="nofollow noopner" target="_blank">Lineicons
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#" rel="nofollow noopner" target="_blank">Ecommerce
-                                        HTML</a>
-                                </li>
-                                <li>
-                                    <a href="#" rel="nofollow noopner" target="_blank">Ayro UI</a>
-                                </li>
-                                <li>
-                                    <a href="#" rel="nofollow noopner" target="_blank">Plain
-                                        Admin</a>
+                                    <a href="#">Belum ada kategori</a>
                                 </li>
                             @endif
 
@@ -154,7 +133,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-12">
-                    <p class="ud-footer-bottom-right">
+                    <p class="ud-footer-bottom-right text-center text-md-end">
                         Designed and Developed by
                         <a href="https://www.instagram.com/bimabtw_?igsh=czhkOW92M21zYmY1" target="_blank"
                             rel="nofollow">bimabtw_</a>

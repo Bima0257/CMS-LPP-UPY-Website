@@ -30,8 +30,7 @@ class DocumentLandingpageController extends Controller
 
 
         $query = Documents::with(['category', 'author'])
-            ->where('is_published', 1)
-            ->search($request->search);
+            ->where('is_published', 1);
         $categories = DocumentCategories::where('is_published', 1)
             ->orderBy('sort_order')
             ->get();
@@ -138,7 +137,7 @@ class DocumentLandingpageController extends Controller
                 ->orderBy('date', 'desc')
                 ->limit(5)
                 ->get()
-                ->map(function ($doc) use ($documents) {
+                ->map(function ($doc) {
                     return [
                         'id' => $doc->id,
                         'title' => $doc->title,

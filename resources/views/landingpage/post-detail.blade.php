@@ -4,13 +4,14 @@
         style="background-image: url('{{ !empty($banner) && !empty($banner->banner_background)
             ? asset('storage/' . $banner->banner_background)
             : asset('assets/images/background/background-default.jpg') }}');">
-        <div class="row">
-            <div class="col-lg-12">
-                <div class="ud-banner-content">
-                    <h1>{{ $post->title }}</h1>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="ud-banner-content">
+                        <h1>{{ $post->title }}</h1>
+                    </div>
                 </div>
             </div>
-        </div>
         </div>
     </section>
     <!-- ====== Banner End ====== -->
@@ -21,7 +22,7 @@
             <div class="row">
                 <div class="col-lg-12">
                     <div class="ud-blog-details-image">
-                        <img src="{{ asset('storage/' . $post->image) }}" alt="blog details" />
+                        <img src="{{ $post->image ? asset('storage/' . $post->image) : asset('assets/images/default/default1.jpg') }}" alt="blog details" />
                         <div class="ud-blog-overlay">
                             <div class="ud-blog-overlay-content">
                                 <div class="ud-blog-author">
@@ -46,7 +47,7 @@
                                 <div class="ud-blog-meta">
                                     <p class="date">
                                         <i class="lni lni-calendar"></i>
-                                        <span>{{ $post->created_at->format('M d, Y') }}</span>
+                                        <span>{{ \Carbon\Carbon::parse($post->date)->translatedFormat('d F Y') }}</span>
                                     </p>
                                 </div>
                             </div>
@@ -125,9 +126,11 @@
     <!-- ====== Blog Start ====== -->
     <section class="ud-blog-grids ud-related-articles">
         <div class="container">
-            <div class="row col-lg-12">
-                <div class="ud-related-title">
-                    <h2 class="ud-related-articles-title">Related Articles</h2>
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="ud-related-title">
+                        <h2 class="ud-related-articles-title">Related Articles</h2>
+                    </div>
                 </div>
             </div>
             <div class="row">
@@ -143,7 +146,7 @@
                                 </div>
                                 <div class="ud-blog-content">
                                     <span class="ud-blog-date">
-                                        {{ $related->created_at->format('M d, Y') }}
+                                        {{ \Carbon\Carbon::parse($related->date)->translatedFormat('d F Y') }}
                                     </span>
                                     <h3 class="ud-blog-title">
                                         <a href="{{ route('post.show', $related->slug) }}">
@@ -158,6 +161,9 @@
                         </div>
                     @endforeach
                 @else
+                    <div class="col-12 text-center py-4">
+                        <p class="text-muted mb-0">Tidak ada artikel terkait.</p>
+                    </div>
                 @endif
             </div>
 

@@ -121,9 +121,6 @@
     <!-- Sweet alert init js-->
     <script src="{{ asset('assets_admin/js/pages/sweet-alerts.init.js') }}"></script>
 
-    <!--tinymce js-->
-    <script src="{{ asset('assets_admin/libs/tinymce/tinymce.min.js') }}"></script>
-
 
     <!-- apexcharts -->
     <script src="{{ asset('assets_admin/libs/apexcharts/apexcharts.min.js') }}"></script>

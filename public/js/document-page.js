@@ -106,7 +106,7 @@ function initPasswordModal() {
     if (!modal) return;
 
     modal.addEventListener("show.bs.modal", (event) => {
-        documentIdInput.value = event.relatedTarget.dataset.id;
+        documentIdInput.value = event.relatedTarget?.dataset?.id || '';
     });
 
     modal.addEventListener("hidden.bs.modal", () => {

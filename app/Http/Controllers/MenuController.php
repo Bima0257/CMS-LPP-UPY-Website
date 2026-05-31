@@ -11,10 +11,9 @@ class MenuController extends Controller
     public function index()
     {
         $title = 'Menu Setting';
-        // Ambil data pertama atau buat baru jika belum ada
-        $menu = Menu::first();
-        if (!$menu) {
-            $menu = Menu::create([
+        $menu = Menu::firstOrCreate(
+            ['id' => 1],
+            [
                 'home' => 'Home',
                 'about' => 'About',
                 'information' => 'Information',
@@ -22,8 +21,9 @@ class MenuController extends Controller
                 'team' => 'Team',
                 'service' => 'Service',
                 'contact' => 'Contact',
-            ]);
-        }
+            ]
+        );
+        
         return view('admin.menu.index', compact('title', 'menu'));
     }
 

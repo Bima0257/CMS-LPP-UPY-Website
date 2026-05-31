@@ -43,9 +43,12 @@
                                     <td class="order-number">{{ $carousel->sort_order }}</td>
                                     <td>{{ $carousel->author?->name ?? '-' }}</td>
                                     <td>
-                                        <img src="{{ asset('storage/' . $carousel->image) }}" alt="carousel-img"
-                                            width="50" height="50"
-                                            style="object-fit: cover; box-shadow: 0 0 5px rgba(0,0,0,0.2);">
+                                        <button type="button" class="btn btn-primary btn-sm view-image-btn"
+                                            data-bs-toggle="modal" data-bs-target="#imagePreviewModal"
+                                            data-image="{{ asset('storage/' . $carousel->image) }}"
+                                            data-title="{{ $carousel->title }}">
+                                            <i class="ri-image-line"></i> View Image
+                                        </button>
                                     </td>
                                     <td>{{ \Illuminate\Support\Str::limit($carousel->title, 50) }}</td>
                                     <td>
@@ -80,12 +83,59 @@
                         </tbody>
                     </table>
 
+                    <!-- Modal Preview Image -->
+                    <div class="modal fade" id="imagePreviewModal" tabindex="-1"
+                        aria-labelledby="imagePreviewModalLabel" aria-hidden="true">
+
+                        <div class="modal-dialog modal-dialog-centered modal-lg">
+                            <div class="modal-content border-0 shadow">
+
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="imagePreviewModalLabel">
+                                        Preview Image
+                                    </h5>
+
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                        aria-label="Close"></button>
+                                </div>
+
+                                <div class="modal-body text-center">
+
+                                    <img id="previewModalImage" src="" class="img-fluid rounded shadow-sm"
+                                        alt="Preview Image">
+
+                                    <h6 id="previewModalTitle" class="mt-3"></h6>
+
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
             </div>
         </div> <!-- end col -->
     </div> <!-- end row-->
 </x-admin.layout>
 <script>
+    document.addEventListener('DOMContentLoaded', function() {
+
+        const imageModal = document.getElementById('imagePreviewModal');
+
+        imageModal.addEventListener('show.bs.modal', function(event) {
+
+            const button = event.relatedTarget;
+
+            const image = button.getAttribute('data-image');
+            const title = button.getAttribute('data-title');
+
+            document.getElementById('previewModalImage').src = image;
+            document.getElementById('previewModalTitle').textContent = title;
+
+        });
+
+    });
+
     $(document).ready(function() {
         const table = $('#carouselTable').DataTable({
             rowReorder: {

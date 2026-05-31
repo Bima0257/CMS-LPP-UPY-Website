@@ -92,8 +92,8 @@
                 </div>
                 <div class="modal-body">
 
-                    <form action="{{ route('documents-categories.store') }}" id="documentDocumentCategoryForm"
-                        method="POST" enctype="multipart/form-data">
+                    <form action="{{ route('documents-categories.store') }}" id="documentCategoryForm" method="POST"
+                        enctype="multipart/form-data">
                         @csrf
                         <div class="row">
                             {{-- Judul Dokumen --}}
@@ -108,7 +108,7 @@
                             </div>
 
                             {{-- Deskripsi --}}
-                            <div class="mb-3">
+                            <div class="mb-5">
                                 <label for="description" class="col-form-label">Deskripsi</label>
                                 <textarea name="description" id="description" rows="4"
                                     class="form-control @error('description') is-invalid @enderror" placeholder="Masukkan deskripsi singkat">{{ old('description') }}</textarea>
@@ -118,7 +118,7 @@
                             </div>
 
                             {{-- Status Publikasi --}}
-                            <div class="mb-3">
+                            <div class="mb-3 mt-5">
                                 <label for="is_published" class="col-form-label">Status Publikasi</label>
                                 <select name="is_published" id="is_published"
                                     class="form-select @error('is_published') is-invalid @enderror" required>
@@ -131,6 +131,7 @@
                                     <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
                             </div>
+
 
                         </div>
 
@@ -151,7 +152,7 @@
 </x-admin.layout>
 
 <script>
-    initTiny('#description');
+    initQuill('#description');
 
     $(document).ready(function() {
         // Inisialisasi DataTable dengan Row Reorder
@@ -304,8 +305,8 @@
         $('#modal').on('hidden.bs.modal', function() {
             const $form = $(this).find('form')[0];
             $form.reset();
+            setQuillContent('#description', '');
             $('#documentCategoryForm input[name="_method"]').remove();
-            $('#myModalLabel').text('Tambah Kategori');
             $('#documentCategoryForm').attr('action', '/documents-categories');
         });
 
@@ -318,7 +319,7 @@
         // Edit Kategori
         $(document).on('click', '.btn-edit-category', function() {
             const id = $(this).data('id');
-            const $form = $('#documentDocumentCategoryForm');
+            const $form = $('#documentCategoryForm');
 
             $('#myModalLabel').text('Edit Kategori');
 
@@ -334,7 +335,7 @@
                 success: function(data) {
                     $('#name').val(data.name);
                     $('#is_published').val(data.is_published);
-                    tinymce.get('description').setContent(data.description ?? '');
+                    setQuillContent('#description', data.description || '');
                     $('#modal').modal('show');
                 },
                 error: function(xhr) {

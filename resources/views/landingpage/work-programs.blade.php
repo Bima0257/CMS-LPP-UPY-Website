@@ -15,7 +15,6 @@
             </div>
         </div>
         <!-- end page title -->
-        </div>
     </section>
 
     <section id="about" class="ud-about">
@@ -23,11 +22,10 @@
             <div class="row">
                 <div class="col-lg-12">
                     <div class="ud-section-title mx-auto text-center">
-                        <span>Struktur Organisasi</span>
-                        <h2>Lembaga Pengembangan Pendidikan UPY</h2>
+                        <span>Program Kerja</span>
+                        <h2>Program Kerja LPP UPY</h2>
                         <p>
-                            LPP UPY terdiri atas tim yang berkomitmen mengembangkan kualitas pembelajaran dan inovasi
-                            pendidikan.
+                            Berikut adalah daftar program kerja yang telah dan akan dilaksanakan oleh LPP UPY.
                         </p>
                     </div>
                 </div>

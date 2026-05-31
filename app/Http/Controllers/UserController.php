@@ -88,8 +88,8 @@ class UserController extends Controller
      */
     public function destroy(User $user)
     {
-        if ($user->avatar && Storage::exists($user->avatar)) {
-            Storage::delete($user->avatar);
+        if ($user->avatar && Storage::disk('public')->exists($user->avatar)) {
+            Storage::disk('public')->delete($user->avatar);
         }
 
         $user->delete();
@@ -133,8 +133,8 @@ class UserController extends Controller
 
         // ✅ Upload avatar baru (hapus lama jika ada)
         if ($request->hasFile('avatar')) {
-            if ($user->avatar && Storage::exists('public/' . $user->avatar)) {
-                Storage::delete('public/' . $user->avatar);
+            if ($user->avatar && Storage::disk('public')->exists($user->avatar)) {
+                Storage::disk('public')->delete($user->avatar);
             }
 
             $validated['avatar'] = $request->file('avatar')->store('avatars', 'public');

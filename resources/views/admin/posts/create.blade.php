@@ -3,7 +3,7 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-body">
-                    <h4 class="card-title">Tambah Post</h4>
+                    <h4 class="card-title">Tambah Artikel</h4>
                     <form action="{{ route('posts-management.store') }}" id="postForm" method="POST"
                         enctype="multipart/form-data">
                         @csrf
@@ -61,7 +61,7 @@
 
                                 {{-- Tanggal Pelaksanaan --}}
                                 <div class="mb-3">
-                                    <label for="date" class="col-form-label">Tanggal Dokumen</label>
+                                    <label for="date" class="col-form-label">Tanggal Artikel</label>
                                     <input type="date" name="date" id="date"
                                         class="form-control @error('date') is-invalid @enderror"
                                         value="{{ old('date') }}" required>

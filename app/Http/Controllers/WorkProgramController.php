@@ -52,7 +52,7 @@ class WorkProgramController extends Controller
      */
     public function store(StoreWorkProgramRequest $request)
     {
-        $this->service->store($request);
+        $this->service->store($request->validated());
         Cache::forget('dashboard.prokers');
 
         return redirect()->route('work-programs.index')->with('success', 'Program kerja berhasil ditambahkan!');
@@ -84,7 +84,7 @@ class WorkProgramController extends Controller
      */
     public function update(UpdateWorkProgramRequest $request, WorkProgram $workProgram)
     {
-        $this->service->update($request, $workProgram);
+        $this->service->update($request->validated(), $workProgram);
         Cache::forget('dashboard.prokers');
 
         return redirect()->route('work-programs.index')->with('success', 'Program kerja berhasil diperbarui!');

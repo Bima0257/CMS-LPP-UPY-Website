@@ -5,7 +5,7 @@
             <div class="card">
                 <div class="card-body">
 
-                    <h4 class="card-title text-center">Data Kategori Posts</h4>
+                    <h4 class="card-title text-center">Data Kategori Artikel</h4>
 
                     <!-- Button trigger modal -->
                     <button type="button" class="btn btn-primary mb-3 btn-add-category" data-bs-toggle="modal"
@@ -139,7 +139,6 @@
 </x-admin.layout>
 
 <script>
-    initTiny('#description');
 
     $(document).ready(function() {
         // Inisialisasi DataTable dengan Row Reorder

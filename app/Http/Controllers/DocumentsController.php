@@ -13,6 +13,13 @@ use Illuminate\Support\Facades\Cache;
 
 class DocumentsController extends Controller
 {
+    protected DocumentService $service;
+
+    public function __construct(DocumentService $service)
+    {
+        $this->service = $service;
+    }
+
     /**
      * Display a listing of the resource.
      */
@@ -59,10 +66,10 @@ class DocumentsController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(DocumentStoreRequest $request, DocumentService $service)
+    public function store(DocumentStoreRequest $request)
     {
 
-        $service->store($request->validated());
+        $this->service->store($request->validated());
 
         Cache::forget('latest_documents');
         Cache::forget('admin_document_categories');
@@ -100,11 +107,10 @@ class DocumentsController extends Controller
      */
     public function update(
         DocumentUpdateRequest $request,
-        Documents $documents,
-        DocumentService $service
+        Documents $documents
     ) {
 
-        $service->update($documents, $request->validated());
+        $this->service->update($documents, $request->validated());
 
         Cache::forget('latest_documents');
         Cache::forget('documents.superadmin');
@@ -124,9 +130,9 @@ class DocumentsController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Documents $documents, DocumentService $service)
+    public function destroy(Documents $documents)
     {
-        $service->delete($documents);
+        $this->service->delete($documents);
 
         Cache::forget('latest_documents');
         Cache::forget('documents.superadmin');

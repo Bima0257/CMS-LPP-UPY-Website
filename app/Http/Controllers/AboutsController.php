@@ -7,32 +7,28 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Http\UploadedFile;
 
 class AboutsController extends Controller
 {
     public function index()
     {
-        // Ambil data pertama
-        $about = Abouts::first();
-
-        // Jika belum ada, buat data dummy
-        if (!$about) {
-            $about = Abouts::create([
+        $about = Abouts::firstOrCreate(
+            ['id' => 1],
+            [
                 'name' => 'Nama Organisasi',
                 'description' => 'Deskripsi singkat tentang organisasi Anda.',
                 'vision' => 'Menjadi organisasi yang unggul dan berdaya saing.',
-                'mission' => '1. Memberikan layanan terbaik kepada masyarakat. 
-                          2. Meningkatkan profesionalisme dan integritas.',
+                'mission' => '1. Memberikan layanan terbaik kepada masyarakat.',
                 'purpose' => 'Memberikan manfaat bagi masyarakat luas.',
-                'address' => 'Jl. Contoh No. 123, Kota Contoh, Indonesia',
+                'address' => 'Jl. Contoh No. 123',
                 'email' => 'info@organisasi.com',
-                'phone' => '+62 812 3456 7890',
+                'phone' => '+62 8123456789',
                 'youtube_link' => 'https://youtube.com/',
                 'instagram_link' => 'https://instagram.com/',
-            ]);
-        }
+            ]
+        );
 
-        // Tampilkan view
         return view('admin.abouts.index', [
             'title' => 'About Setting',
             'about' => $about
@@ -90,12 +86,14 @@ class AboutsController extends Controller
         foreach (['thumbnail', 'image', 'favicon', 'white_logo', 'black_logo'] as $field) {
             if ($request->hasFile($field)) {
                 // Hapus file lama jika ada
-                if ($about->$field && Storage::exists($about->$field)) {
-                    Storage::delete($about->$field);
+                if ($about->$field && Storage::disk('public')->exists($about->$field)) {
+                    Storage::disk('public')->delete($about->$field);
                 }
 
                 // Upload file baru
-                $validatedData[$field] = $request->file($field)->store('abouts');
+                /** @var UploadedFile $file */
+                $file = $request->file($field);
+                $validatedData[$field] = $file->store('abouts', 'public');
             }
         }
 

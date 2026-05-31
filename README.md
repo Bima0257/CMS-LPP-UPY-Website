@@ -1,66 +1,203 @@
-<<<<<<< HEAD
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# LPP-UPY Website CMS
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Website resmi **Lembaga Pengembangan Pendidikan (LPP) Universitas PGRI Yogyakarta (UPY)** — dibangun dengan Laravel 12.
 
-## About Laravel
+> **Website:** [https://lpp.upy.ac.id/](https://lpp.upy.ac.id/)
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+---
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## Fitur
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+### Halaman Publik
+- **Beranda** — Hero carousel, about, dokumen terbaru, artikel, tim, layanan, kontak
+- **Artikel** — Daftar artikel dengan pencarian, filter kategori, filter tanggal, sorting, pagination responsive
+- **Dokumen** — Daftar dokumen dengan tampilan grid/table, pencarian, filter, download (termasuk dokumen terproteksi password)
+- **Timeline Program Kerja** — Program kerja dikelompokkan per tahun/bulan
+- **Halaman About, Visi-Misi, Tim, Layanan**
 
-## Learning Laravel
+### Admin Dashboard
+- **Dashboard** — Statistik dengan grafik pie (kategori artikel & dokumen)
+- **Manajemen Artikel** — CRUD + upload thumbnail/gambar + kategori + sort order
+- **Manajemen Dokumen** — CRUD + upload file + proteksi password + kategori
+- **Manajemen Carousel** — CRUD + reorder + upload gambar
+- **Manajemen Member** — CRUD + reorder + upload foto + sosial media
+- **Manajemen Layanan** — CRUD
+- **Manajemen Program Kerja** — CRUD + author ownership
+- **Manajemen User** — CRUD (superadmin only) + role admin/superadmin
+- **Manajemen Menu** — Edit label navbar
+- **Manajemen Banner** — Upload banner background & footer background
+- **Profil Organisasi** — Edit nama, deskripsi, visi, misi, logo, favicon, kontak
+- **Pesan Masuk** — Lihat, tandai sudah dibaca, hapus
+- **Pengaturan Profil** — Edit profil + ganti password + upload avatar
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+---
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+## Tech Stack
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+| Komponen | Teknologi |
+|---|---|
+| Backend | PHP 8.2+, Laravel 12 |
+| Frontend | Bootstrap 5, jQuery, Blade |
+| CSS | Template UD-Stlyes + custom CSS |
+| Database | SQLite (dev) / MySQL (production) |
+| Cache | Database driver |
+| Session | Database driver |
+| Build | Vite + Tailwind CSS (tidak dipakai di frontend) |
+| Library | Eloquent Sluggable, SweetAlert2, DataTables, ApexCharts, TinyMCE, Quill Editor |
 
-## Laravel Sponsors
+---
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+## Struktur Folder
 
-### Premium Partners
+```
+app/
+├── Console/Commands/       # Artisan custom commands
+├── Helpers/                 # PhoneHelper, SearchDateHelper
+├── Http/
+│   ├── Controllers/         # 19 controllers
+│   ├── Middleware/           # AdminAuth, RoleAccess, SingleLogin, ExtendSession
+│   └── Requests/            # 12 FormRequest validasi
+├── Models/                  # 14 Eloquent models
+├── Providers/               # AppServiceProvider
+├── Services/                # 7 service classes (business logic)
+└── Traits/                  # Searchable, UploadTrait
+resources/views/
+├── admin/                   # 15 admin dashboard views
+├── components/
+│   ├── admin/               # layout, navbar, sidebar, footer
+│   └── landingpage/         # layout, navbar, footer
+├── errors/                  # 404
+├── landingpage/             # 11 halaman publik
+└── vendor/pagination/       # Custom pagination
+routes/
+├── web.php                  # Semua route
+└── console.php
+public/
+├── assets/                  # Template assets (CSS, JS, images)
+├── assets_admin/            # Admin template assets
+└── js/                      # home-page.js, post-page.js, document-page.js
+```
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+---
 
-## Contributing
+## Instalasi
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+```bash
+# Clone repository
+git clone https://github.com/username/lpp-upy-website-cms.git
+cd lpp-upy-website-cms
 
-## Code of Conduct
+# Install dependencies
+composer install
+npm install
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+# Environment
+cp .env.example .env
+php artisan key:generate
 
-## Security Vulnerabilities
+# Storage link
+php artisan storage:link
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+# Database (SQLite default)
+php artisan migrate
 
-## License
+# Build assets
+npm run build
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
-=======
-# LPP-UPY-Website-CMS
-LembagaPengembanganPendidikan-UPY-Website-CMS is a Laravel-based web application for managing and publishing educational content efficiently. It features an easy CMS and admin dashboard to support digital services at Universitas PGRI Yogyakarta. Website: https://lpp.upy.ac.id/
->>>>>>> 216d05cc61c55bc82c390b7f89ecfc030b72d20a
+# Jalankan development server
+php artisan serve
+```
+
+### Production Build
+
+```bash
+composer install --optimize-autoloader --no-dev
+npm install && npm run build
+
+# Cache
+php artisan config:cache
+php artisan route:cache
+php artisan view:cache
+
+# Set .env
+APP_ENV=production
+APP_DEBUG=false
+APP_URL=https://domain-anda.com
+```
+
+---
+
+## Role & Akses
+
+| Role | Akses |
+|---|---|
+| `superadmin` | Semua fitur termasuk manajemen user, carousel, member, kategori |
+| `admin` | Artikel, dokumen, program kerja, pesan, profil sendiri |
+
+---
+
+## Route Utama
+
+### Public
+| Method | URI | Controller |
+|---|---|---|
+| GET | `/` | `LandingpageController@index` |
+| GET | `/all-posts` | `PostLandingpageController@posts` |
+| GET | `/post/{slug}` | `PostLandingpageController@show` |
+| GET | `/all-document` | `DocumentLandingpageController@documents` |
+| GET | `/abouts` | `LandingpageController@abouts` |
+| GET | `/visi-misi` | `LandingpageController@visiMisi` |
+| GET | `/teams` | `LandingpageController@teams` |
+| GET | `/program-kerja` | `LandingpageController@timeline` |
+| GET | `/service` | Route closure |
+| POST | `/messages` | `MessageController@store` |
+
+### Document Download
+| Method | URI | Deskripsi |
+|---|---|---|
+| GET | `/documents/download/{id}` | Download dokumen (non-protected) |
+| POST | `/documents/verify-password` | Verifikasi password dokumen |
+| GET | `/documents/download-verified` | Download via token (5 menit) |
+
+### Auth
+| Method | URI |
+|---|---|
+| GET | `/login` |
+| POST | `/authenticate` |
+| GET | `/logout` |
+
+### Admin (perlu login)
+| Method | URI |
+|---|---|
+| GET | `/dashboard` |
+| GET/POST | `/users-management` |
+| GET/POST | `/posts-management` |
+| GET/POST | `/documents-management` |
+| GET/POST | `/carousels-management` |
+| GET/POST | `/work-programs` |
+| GET/POST | `/messages` |
+| GET/PUT | `/profile` |
+
+---
+
+## Caching
+
+Project menggunakan **database cache driver** dengan cache key prefix yang jelas:
+
+- `lp_categories_all` — kategori artikel (1 jam)
+- `carousels` — data carousel (10 menit)
+- `latest_posts` — artikel terbaru (10 menit)
+- `dashboard.*` — statistik dashboard (60 menit)
+- `posts_page_*` — pagination artikel (10 menit, di-clear manual)
+- `documents_*` — pagination dokumen (10 menit, versioned)
+- `banner`, `menu`, `about_*` — data global (1 jam)
+
+Cache di-invalidate secara manual di setiap operasi CRUD.
+
+---
+
+## Kontak
+
+Dikembangkan oleh [bimabtw_](https://www.instagram.com/bimabtw_/).
+
+LPP Universitas PGRI Yogyakarta.

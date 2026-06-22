@@ -34,10 +34,12 @@ jobs:
         run: |
           cp .env.example .env
           touch database/database.sqlite
-          php artisan key:generate
 
       - name: Install dependencies
         run: composer install --no-interaction --prefer-dist
+
+      - name: Generate app key
+        run: php artisan key:generate
 
       - name: Run Laravel Pint
         run: ./vendor/bin/pint --test

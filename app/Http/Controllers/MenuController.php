@@ -23,13 +23,14 @@ class MenuController extends Controller
                 'contact' => 'Contact',
             ]
         );
-        
+
         return view('admin.menu.index', compact('title', 'menu'));
     }
 
     public function edit($id)
     {
         $menu = Menu::findOrFail($id);
+
         return response()->json($menu);
     }
 

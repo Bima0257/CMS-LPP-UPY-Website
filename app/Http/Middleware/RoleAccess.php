@@ -18,9 +18,10 @@ class RoleAccess
     {
         $user = Auth::user();
 
-        if (!$user || !in_array($user->role, $roles)) {
+        if (! $user || ! in_array($user->role, $roles)) {
             return redirect('/dashboard');
         }
+
         return $next($request);
     }
 }

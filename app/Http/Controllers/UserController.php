@@ -10,18 +10,16 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Validation\Rule;
-use Illuminate\Support\Facades\Validator;
 
 class UserController extends Controller
 {
-
     protected UserService $userService;
 
     public function __construct(UserService $userService)
     {
         $this->userService = $userService;
     }
+
     /**
      * Display a listing of the resource.
      */
@@ -31,7 +29,7 @@ class UserController extends Controller
             'admin.users-management.index',
             [
                 'title' => 'Users Management',
-                'users' => User::where('id', '!=', Auth::id())->latest()->get()
+                'users' => User::where('id', '!=', Auth::id())->latest()->get(),
             ]
         );
     }
@@ -50,10 +48,10 @@ class UserController extends Controller
     public function store(UserStoreRequest $request)
     {
         $this->userService->store($request->validated());
+
         return redirect()->route('users-management.index')
             ->with('success', 'New user has been added successfully!');
     }
-
 
     /**
      * Display the specified resource.
@@ -101,6 +99,7 @@ class UserController extends Controller
     {
         $title = 'Profile';
         $user = Auth::user();
+
         return view('admin.profile.index', compact('user', 'title'));
     }
 
@@ -111,7 +110,7 @@ class UserController extends Controller
         // ✅ Validasi dasar
         $validated = $request->validate([
             'name' => 'required|string|max:255',
-            'username' => 'required|string|max:255|unique:users,username,' . $id,
+            'username' => 'required|string|max:255|unique:users,username,'.$id,
             'avatar' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
             'password_current' => 'nullable|string',
             'password' => 'nullable|string|min:6|confirmed', // gunakan confirmed untuk validasi password_confirmation
@@ -121,7 +120,7 @@ class UserController extends Controller
         if ($request->filled('password_current') || $request->filled('password')) {
 
             // Pastikan password lama benar
-            if (!Hash::check($request->password_current, $user->password)) {
+            if (! Hash::check($request->password_current, $user->password)) {
                 return back()->withErrors(['password_current' => 'Password lama tidak sesuai.'])->withInput();
             }
 

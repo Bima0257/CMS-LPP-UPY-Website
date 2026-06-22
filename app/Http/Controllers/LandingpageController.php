@@ -45,8 +45,6 @@ class LandingpageController extends Controller
                 ->get();
         });
 
-
-
         $documents = Cache::remember('latest_documents', now()->addMinutes(10), function () {
             return Documents::with('category')->where('is_published', 1)->latest('date')->take(4)->get();
         });
@@ -63,17 +61,18 @@ class LandingpageController extends Controller
         $documents->map(function ($doc) use ($icons) {
             $ext = strtolower($doc->file_extension);
             $doc->icon_class = $icons[$ext] ?? $icons['default'];
+
             return $doc;
         });
 
         return view('index', compact('services', 'members', 'posts', 'carousels', 'about', 'documents', 'title'));
     }
 
-
     public function abouts()
     {
         $about = Abouts::first();
         $title = 'Tentang LPP';
+
         return view('landingpage.abouts-all', compact('title', 'about'));
     }
 
@@ -81,6 +80,7 @@ class LandingpageController extends Controller
     {
         $about = Abouts::select('name', 'vision', 'mission', 'purpose', 'image')->first();
         $title = 'Visi-Misi & Tujuan';
+
         return view('landingpage.visi-misi', compact('about', 'title'));
     }
 
@@ -88,11 +88,11 @@ class LandingpageController extends Controller
     {
         $members = Member::orderBy('sort_order', 'asc')->get();
         $title = 'Struktur Organisasi';
+
         return view('landingpage.teams', compact('title', 'members'));
     }
 
-
-    // Timeline - work-programs 
+    // Timeline - work-programs
     public function timeline()
     {
         // Ambil semua program kerja, urutkan dari terbaru ke terlama
@@ -100,11 +100,10 @@ class LandingpageController extends Controller
 
         return view('landingpage.work-programs', [
             'title' => 'Program Kerja',
-            'programs' => $programs
+            'programs' => $programs,
         ]);
     }
 
     // Timeline - work-programs End
-
 
 }

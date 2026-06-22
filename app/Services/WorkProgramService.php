@@ -7,7 +7,6 @@ use Illuminate\Support\Facades\Auth;
 
 class WorkProgramService
 {
-
     public function store(array $data): WorkProgram
     {
         return WorkProgram::create([

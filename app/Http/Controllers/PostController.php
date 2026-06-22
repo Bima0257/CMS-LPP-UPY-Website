@@ -13,7 +13,6 @@ use Illuminate\Support\Facades\Cache;
 
 class PostController extends Controller
 {
-
     protected $service;
 
     public function __construct(PostService $service)
@@ -38,6 +37,7 @@ class PostController extends Controller
             }
         }
     }
+
     /**
      * Display a listing of the resource.
      */
@@ -54,7 +54,7 @@ class PostController extends Controller
             });
         } else {
 
-            $cacheKey = 'admin_posts_user_' . $user->id;
+            $cacheKey = 'admin_posts_user_'.$user->id;
 
             $posts = Cache::remember($cacheKey, now()->addMinutes(10), function () use ($user) {
                 return Posts::where('author_id', $user->id)->latest('date')->get();
@@ -63,10 +63,9 @@ class PostController extends Controller
 
         return view('admin.posts.index', [
             'title' => 'Post',
-            'posts' => $posts
+            'posts' => $posts,
         ]);
     }
-
 
     /**
      * Show the form for creating a new resource.
@@ -80,7 +79,7 @@ class PostController extends Controller
 
         return view('admin.posts.create', [
             'title' => 'Create Post',
-            'categories' => $categories
+            'categories' => $categories,
         ]);
     }
 
@@ -99,7 +98,7 @@ class PostController extends Controller
         $this->clearPostCache();
 
         foreach (User::pluck('id') as $id) {
-            Cache::forget('admin_posts_user_' . $id);
+            Cache::forget('admin_posts_user_'.$id);
         }
 
         return redirect()->route('posts-management.index')
@@ -126,7 +125,7 @@ class PostController extends Controller
         return view('admin.posts.edit', [
             'title' => 'Edit Post',
             'post' => $posts,
-            'categories' => $categories
+            'categories' => $categories,
         ]);
     }
 
@@ -144,7 +143,7 @@ class PostController extends Controller
         $this->clearPostCache();
 
         foreach (\App\Models\User::pluck('id') as $id) {
-            Cache::forget('admin_posts_user_' . $id);
+            Cache::forget('admin_posts_user_'.$id);
         }
 
         return redirect()->route('posts-management.index')
@@ -165,9 +164,8 @@ class PostController extends Controller
         $this->clearPostCache();
 
         foreach (User::pluck('id') as $id) {
-            Cache::forget('admin_posts_user_' . $id);
+            Cache::forget('admin_posts_user_'.$id);
         }
-
 
         return redirect()->route('posts-management.index')
             ->with('success', 'Post telah dihapus!');

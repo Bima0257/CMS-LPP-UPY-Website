@@ -10,8 +10,7 @@ use Illuminate\Support\Facades\Cache;
 
 class PostLandingpageController extends Controller
 {
-
-    // Post 
+    // Post
 
     public function posts(Request $request)
     {
@@ -34,7 +33,7 @@ class PostLandingpageController extends Controller
         if ($request->filled('date_from') && $request->filled('date_to')) {
             $query->whereBetween('date', [
                 $request->date_from,
-                $request->date_to
+                $request->date_to,
             ]);
         } elseif ($request->filled('date_from')) {
             $query->whereDate('date', '>=', $request->date_from);
@@ -47,7 +46,6 @@ class PostLandingpageController extends Controller
 
         $query->orderBy('date', $sort);
 
-
         $userAgent = $request->header('User-Agent');
         $isMobile = preg_match('/Mobile|Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i', $userAgent);
 
@@ -57,7 +55,7 @@ class PostLandingpageController extends Controller
         $search = $request->get('search', '');
         $category = $request->get('category', '');
         $dateFrom = $request->get('date_from', '');
-        $dateTo   = $request->get('date_to', '');
+        $dateTo = $request->get('date_to', '');
 
         $cacheKey = "posts_page_{$page}_per_{$perPage}_search_{$search}_cat_{$category}_sort_{$sort}_date_from_{$dateFrom}_date_to_{$dateTo}";
 
@@ -66,8 +64,8 @@ class PostLandingpageController extends Controller
             return $query->paginate($perPage)->withQueryString();
         });
 
-
         $title = 'Semua Artikel';
+
         return view('landingpage.all-post', compact('all_posts', 'title', 'categories'));
     }
 
@@ -77,7 +75,8 @@ class PostLandingpageController extends Controller
             return PostCategories::withCount('posts')->where('is_published', 1)->get();
         });
 
-        $title =  'Semua Kategori';
+        $title = 'Semua Kategori';
+
         return view('landingpage.all-post-categories', compact('categories', 'title'));
     }
 
@@ -106,15 +105,15 @@ class PostLandingpageController extends Controller
         $all_posts = Cache::remember($cacheKey, now()->addMinutes(10), function () use ($query, $perPage) {
             return $query->latest('date')->paginate($perPage)->withQueryString();
         });
-        $title = 'Kategori | ' . $category->name;
+        $title = 'Kategori | '.$category->name;
 
         return view('landingpage.all-post', compact('title', 'category', 'all_posts'));
     }
 
     public function postSuggestions(Request $request, $slug = null)
     {
-        $query       = trim($request->get('q', ''));
-        $authorName  = $request->get('author');
+        $query = trim($request->get('q', ''));
+        $authorName = $request->get('author');
 
         // Early return kalau input terlalu pendek
         if (strlen($query) < 2) {
@@ -124,10 +123,10 @@ class PostLandingpageController extends Controller
         $posts = Posts::query()
             ->where('is_published', 1)
             ->when($slug, function ($q) use ($slug) {
-                $q->whereHas('category', fn($c) => $c->where('slug', $slug));
+                $q->whereHas('category', fn ($c) => $c->where('slug', $slug));
             })
             ->when($authorName, function ($q) use ($authorName) {
-                $q->whereHas('author', fn($a) => $a->where('name', $authorName));
+                $q->whereHas('author', fn ($a) => $a->where('name', $authorName));
             })
             ->where(function ($qBuilder) use ($query) {
                 $qBuilder->where('title', 'like', "%{$query}%")
@@ -138,19 +137,18 @@ class PostLandingpageController extends Controller
             ->orderBy('date', 'desc')
             ->limit(5)
             ->get()
-            ->map(fn($post) => [
-                'id'         => $post->id,
-                'title'      => $post->title,
+            ->map(fn ($post) => [
+                'id' => $post->id,
+                'title' => $post->title,
                 'date' => $post->date ? \Carbon\Carbon::parse($post->date)->format('d M Y') : null,
             ]);
 
         return response()->json($posts);
     }
 
-
     public function byAuthor(Request $request, User $author)
     {
-        $title = "Artikel by - " . $author->name;
+        $title = 'Artikel by - '.$author->name;
         // 🔹 Query builder awal: semua post author yang dipublish
         $query = Posts::where('author_id', $author->id)
             ->where('is_published', 1);
@@ -180,7 +178,7 @@ class PostLandingpageController extends Controller
 
     public function byCategory(Request $request, PostCategories $category)
     {
-        $title = "Artikel | " . $category->name;
+        $title = 'Artikel | '.$category->name;
 
         // 🔹 Query builder awal: semua post di kategori ini yang dipublish
         $query = Posts::where('post_category_id', $category->id)
@@ -209,7 +207,6 @@ class PostLandingpageController extends Controller
         return view('landingpage.all-post', compact('title', 'all_posts', 'category'));
     }
 
-
     public function show($slug)
     {
         $post = Posts::with('author', 'category')->where('slug', $slug)->where('is_published', 1)->firstOrFail();
@@ -219,7 +216,6 @@ class PostLandingpageController extends Controller
         $popularPosts = Posts::inRandomOrder()
             ->take(4)
             ->get();
-
 
         $relatedPosts = Posts::where('id', '!=', $post->id)
             ->where('post_category_id', $post->post_category_id)

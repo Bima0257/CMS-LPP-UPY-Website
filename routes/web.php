@@ -51,7 +51,7 @@ Route::get('/abouts', [LandingpageController::class, 'abouts'])->name('about.lan
 Route::get('/visi-misi', [LandingpageController::class, 'visiMisi'])->name('about.landingpage.visi-misi');
 Route::get('/teams', [LandingpageController::class, 'teams'])->name('organizational-structure.index');
 
-// Document Download 
+// Document Download
 
 Route::get('/documents/download/{id}', [DocumentLandingpageController::class, 'download'])
     ->name('documents.download');
@@ -64,7 +64,7 @@ Route::get('documents/download-verified', [DocumentLandingpageController::class,
 
 // Route Timeline Work Programs
 Route::get('/program-kerja', [LandingpageController::class, 'timeline'])->name('work-programs.timeline');
-// Route Timeline Work Programs End 
+// Route Timeline Work Programs End
 
 // route service
 Route::get('/service', function () {
@@ -79,16 +79,12 @@ Route::fallback(function () {
     abort(404);
 });
 
-
-
 // Auth Routes
 Route::get('/login', [AuthController::class, 'index']);
 Route::post('/authenticate', [AuthController::class, 'authenticate'])->middleware('single.session');
 Route::get('/heartbeat', function () {
     return response()->json(['status' => 'alive']);
 })->middleware('auth');
-
-
 
 Route::middleware(['admin.auth'])->group(function () {
 
@@ -100,14 +96,12 @@ Route::middleware(['admin.auth'])->group(function () {
 
         // User Management Routes End
 
-
         // Carousels Management Routes
         Route::post('/carousels-management/reorder', [CarouselsController::class, 'reorder'])
             ->name('carousels-management.reorder');
         Route::resource('carousels-management', CarouselsController::class)
             ->parameters(['carousels-management' => 'carousels']);
         // Carousels Management Routes End
-
 
         // DocumentsCategory Management Routes
         Route::resource('documents-categories', DocumentCategoriesController::class)
@@ -116,7 +110,6 @@ Route::middleware(['admin.auth'])->group(function () {
             ->name('documents-categories.reorder');
         // DocumentsCategory Management Routes End
 
-
         // Post-Categories Management Routes
         Route::resource('posts-categories', PostCategoriesController::class)
             ->parameters(['posts-categories' => 'postCategories']);
@@ -124,12 +117,10 @@ Route::middleware(['admin.auth'])->group(function () {
             ->name('posts-categories.reorder');
         // Post-Categories Management Routes End
 
-
         // About Settings Routes
         Route::get('/about-settings', [AboutsController::class, 'index'])->name('about.index');
         Route::put('/about-update/{id}', [AboutsController::class, 'update'])->name('about.update');
         // About Settings Routes End
-
 
         // Service Routes
         Route::resource('/services', ServiceController::class)
@@ -147,9 +138,9 @@ Route::middleware(['admin.auth'])->group(function () {
         Route::get('/menu-setting', [MenuController::class, 'index'])->name('menu.index');
         Route::get('/menu/{id}/edit', [MenuController::class, 'edit'])->name('menu.edit');
         Route::put('/menu/{id}', [MenuController::class, 'update'])->name('menu.update');
-        //Route Menu Navbar End 
+        // Route Menu Navbar End
 
-        // Banner Route 
+        // Banner Route
         Route::get('/banner-setting', [BannerController::class, 'index'])->name('banner.index');
         Route::get('/banner/{id}/edit', [BannerController::class, 'edit'])->name('banner.edit');
         Route::post('/banner/{id}', [BannerController::class, 'update'])->name('banner.update');
@@ -183,7 +174,6 @@ Route::middleware(['admin.auth'])->group(function () {
     Route::resource('posts-management', PostController::class)
         ->parameters(['posts-management' => 'posts']);
     // Post Management Routes End
-
 
     // Route edit Profile
 

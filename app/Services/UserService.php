@@ -11,11 +11,12 @@ class UserService
 {
     public function uploadFoto(?UploadedFile $file): ?string
     {
-        if (!$file) {
+        if (! $file) {
             return null;
         }
 
-        $filename = uniqid('user_') . '.' . $file->getClientOriginalExtension();
+        $filename = uniqid('user_').'.'.$file->getClientOriginalExtension();
+
         return $file->storeAs('users', $filename, 'public');
     }
 
@@ -28,7 +29,7 @@ class UserService
             'username' => $data['username'],
             'password' => Hash::make($data['password']),
             'role' => $data['role'],
-            'avatar' => $fotoPath
+            'avatar' => $fotoPath,
         ]);
     }
 
@@ -43,11 +44,11 @@ class UserService
         $user->update([
             'name' => $data['name'],
             'username' => $data['username'] ?? $user->username,
-            'password' => !empty($data['password'])
+            'password' => ! empty($data['password'])
                 ? Hash::make($data['password'])
                 : $user->password,
             'avatar' => $newFotoPath ? $newFotoPath : $user->avatar,
-            'role' => $data['role'] ?? $user->role
+            'role' => $data['role'] ?? $user->role,
         ], [
             'confirm_password.same' => 'Konfirmasi password baru tidak cocok!',
         ]);

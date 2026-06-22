@@ -8,7 +8,6 @@ use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 
-
 class DocumentCategoriesController extends Controller
 {
     /**
@@ -18,7 +17,7 @@ class DocumentCategoriesController extends Controller
     {
         return view('admin.documents.categories', [
             'title' => 'Document Categories',
-            'categories' => DocumentCategories::orderBy('sort_order')->get()
+            'categories' => DocumentCategories::orderBy('sort_order')->get(),
         ]);
     }
 
@@ -43,6 +42,7 @@ class DocumentCategoriesController extends Controller
 
         if ($validator->fails()) {
             $errorMessages = implode('<br>', $validator->errors()->all());
+
             return back()
                 ->withErrors($validator)
                 ->withInput()
@@ -93,13 +93,14 @@ class DocumentCategoriesController extends Controller
     public function update(Request $request, DocumentCategories $documentCategories)
     {
         $validator = Validator::make($request->all(), [
-            'name' => 'required|string|max:150|unique:document_categories,name,' . $documentCategories->id,
+            'name' => 'required|string|max:150|unique:document_categories,name,'.$documentCategories->id,
             'description' => 'nullable|string|max:5000',
             'is_published' => 'required|boolean',
         ]);
 
         if ($validator->fails()) {
             $errorMessages = implode('<br>', $validator->errors()->all());
+
             return back()
                 ->withErrors($validator)
                 ->withInput()

@@ -33,7 +33,7 @@ class DocumentsController extends Controller
 
         if ($user->role === 'superadmin') {
 
-            $cacheKey = "documents.superadmin";
+            $cacheKey = 'documents.superadmin';
 
             $documents = Cache::remember($cacheKey, now()->addMinutes(10), function () {
                 return Documents::latest('date')->get();
@@ -50,10 +50,9 @@ class DocumentsController extends Controller
         return view('admin.documents.index', [
             'title' => 'Document Management',
             'categories' => $categories,
-            'documents' => $documents
+            'documents' => $documents,
         ]);
     }
-
 
     /**
      * Show the form for creating a new resource.

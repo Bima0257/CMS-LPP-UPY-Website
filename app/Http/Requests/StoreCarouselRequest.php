@@ -2,8 +2,8 @@
 
 namespace App\Http\Requests;
 
-use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Contracts\Validation\Validator;
+use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Support\Facades\Auth;
 
@@ -28,7 +28,7 @@ class StoreCarouselRequest extends FormRequest
             'title' => 'required|string|max:255',
             'description' => 'nullable|string',
             'image' => 'nullable|image|file|mimes:jpeg,png,jpg|max:5000',
-            'btn_link'  => 'nullable|string|max:150',
+            'btn_link' => 'nullable|string|max:150',
             'is_published' => 'required|boolean',
         ];
     }

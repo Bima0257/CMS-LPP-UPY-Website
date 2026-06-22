@@ -30,10 +30,10 @@ class DocumentDownloadService
     {
         $request->validate([
             'document_id' => 'required|exists:documents,id',
-            'access_password' => 'required|string'
+            'access_password' => 'required|string',
         ]);
-        
-        $key = 'verify-password:' . $request->ip() . ':' . $request->document_id;
+
+        $key = 'verify-password:'.$request->ip().':'.$request->document_id;
 
         // Rate limit
         if (RateLimiter::tooManyAttempts($key, 5)) {
@@ -41,26 +41,26 @@ class DocumentDownloadService
 
             return response()->json([
                 'status' => 'error',
-                'message' => "Terlalu banyak percobaan. Coba lagi dalam {$seconds} detik."
+                'message' => "Terlalu banyak percobaan. Coba lagi dalam {$seconds} detik.",
             ], 429);
         }
 
         $document = Documents::find($request->document_id);
 
-        if (!$document) {
+        if (! $document) {
             return response()->json([
                 'status' => 'error',
-                'message' => 'Dokumen tidak ditemukan.'
+                'message' => 'Dokumen tidak ditemukan.',
             ], 404);
         }
 
         // Password check
-        if (!Hash::check($request->access_password, $document->access_password)) {
+        if (! Hash::check($request->access_password, $document->access_password)) {
             RateLimiter::hit($key, 60);
 
             return response()->json([
                 'status' => 'error',
-                'message' => 'Password salah.'
+                'message' => 'Password salah.',
             ], 401);
         }
 
@@ -69,12 +69,12 @@ class DocumentDownloadService
 
         // Create temp token
         $token = Str::random(64);
-        cache()->put('download_token_' . $token, $document->id, now()->addMinute(5));
+        cache()->put('download_token_'.$token, $document->id, now()->addMinute(5));
 
         return response()->json([
-            'status'   => 'success',
-            'message'  => 'Password benar! Unduhan akan dimulai...',
-            'download_url' => route('documents.downloadVerified', ['token' => $token])
+            'status' => 'success',
+            'message' => 'Password benar! Unduhan akan dimulai...',
+            'download_url' => route('documents.downloadVerified', ['token' => $token]),
         ]);
     }
 
@@ -83,13 +83,13 @@ class DocumentDownloadService
      */
     public function downloadVerified($token)
     {
-        if (!$token) {
+        if (! $token) {
             abort(403, 'Token tidak valid.');
         }
 
-        $documentId = cache()->pull('download_token_' . $token);
+        $documentId = cache()->pull('download_token_'.$token);
 
-        if (!$documentId) {
+        if (! $documentId) {
             abort(403, 'Token tidak valid atau sudah kadaluarsa.');
         }
 
@@ -103,9 +103,9 @@ class DocumentDownloadService
      */
     private function downloadFile(Documents $document)
     {
-        $path = storage_path('app/public/' . $document->file_path);
+        $path = storage_path('app/public/'.$document->file_path);
 
-        if (!file_exists($path)) {
+        if (! file_exists($path)) {
             return back()
                 ->with('error', 'File tidak ditemukan.')
                 ->with('form_error', true);
@@ -113,7 +113,7 @@ class DocumentDownloadService
 
         return response()->download(
             $path,
-            $document->title . '.' . pathinfo($path, PATHINFO_EXTENSION)
+            $document->title.'.'.pathinfo($path, PATHINFO_EXTENSION)
         );
     }
 }

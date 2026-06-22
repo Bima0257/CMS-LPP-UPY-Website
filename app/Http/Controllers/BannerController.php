@@ -4,9 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Banner;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Cache;
-
+use Illuminate\Support\Facades\Storage;
 
 class BannerController extends Controller
 {
@@ -28,6 +27,7 @@ class BannerController extends Controller
     public function edit($id)
     {
         $banner = Banner::findOrFail($id);
+
         return response()->json($banner);
     }
 
@@ -62,7 +62,7 @@ class BannerController extends Controller
             $validated['footer_background'] = $request->file('footer_background')->store('banners', 'public');
         }
 
-        if (!empty($validated)) {
+        if (! empty($validated)) {
             $banner->update($validated);
         }
 

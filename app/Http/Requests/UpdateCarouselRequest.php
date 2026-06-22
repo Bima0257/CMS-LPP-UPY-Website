@@ -2,9 +2,9 @@
 
 namespace App\Http\Requests;
 
+use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
-use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Support\Facades\Auth;
 
 class UpdateCarouselRequest extends FormRequest
@@ -27,7 +27,7 @@ class UpdateCarouselRequest extends FormRequest
         return [
             'title' => 'required|string|max:255',
             'description' => 'nullable|string',
-            'btn_link'  => 'nullable|string|max:150',
+            'btn_link' => 'nullable|string|max:150',
             'image' => 'nullable|image|file|mimes:jpeg,png,jpg|max:5000',
             'is_published' => 'required|boolean',
         ];

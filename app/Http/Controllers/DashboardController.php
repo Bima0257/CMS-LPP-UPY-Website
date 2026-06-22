@@ -10,7 +10,6 @@ use App\Models\Message;
 use App\Models\PostCategories;
 use App\Models\Posts;
 use App\Models\WorkProgram;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 
 class DashboardController extends Controller
@@ -21,34 +20,34 @@ class DashboardController extends Controller
 
         // 🔥 Carousel Stats (1 query + cache)
         $carouselStats = Cache::remember('dashboard.carousel', 60, function () {
-            return Carousels::selectRaw("
+            return Carousels::selectRaw('
                 COUNT(*) as total,
                 SUM(is_published = 1) as published
-            ")->first();
+            ')->first();
         });
 
         // 🔥 Post Stats
         $postStats = Cache::remember('dashboard.posts', 60, function () {
-            return Posts::selectRaw("
+            return Posts::selectRaw('
                 COUNT(*) as total,
                 SUM(is_published = 1) as published
-            ")->first();
+            ')->first();
         });
 
         // 🔥 Document Stats
         $documentStats = Cache::remember('dashboard.documents', 60, function () {
-            return Documents::selectRaw("
+            return Documents::selectRaw('
                 COUNT(*) as total,
                 SUM(is_published = 1) as published
-            ")->first();
+            ')->first();
         });
 
         // 🔥 Message Stats
         $messageStats = Cache::remember('dashboard.messages', 60, function () {
-            return Message::selectRaw("
+            return Message::selectRaw('
                 COUNT(*) as total,
                 SUM(is_read = 0) as notRead
-            ")->first();
+            ')->first();
         });
 
         // 🔥 Simple Count (pakai cache juga)
@@ -95,7 +94,7 @@ class DashboardController extends Controller
         $uncategorized = $itemModel::whereNull($foreignKey)->count();
 
         $categories = $data->pluck('name');
-        $totals = $data->pluck($relation . '_count');
+        $totals = $data->pluck($relation.'_count');
 
         // Tambahkan "Tanpa Kategori" jika ada
         if ($uncategorized > 0) {
@@ -106,13 +105,13 @@ class DashboardController extends Controller
         if ($categories->isEmpty()) {
             return [
                 'categories' => collect(['Belum Ada Data']),
-                'totals'     => collect([0]),
+                'totals' => collect([0]),
             ];
         }
 
         return [
             'categories' => $categories,
-            'totals'     => $totals,
+            'totals' => $totals,
         ];
     }
 }

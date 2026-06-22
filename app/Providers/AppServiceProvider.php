@@ -9,13 +9,13 @@ use App\Models\Menu;
 use App\Models\Message;
 use App\Models\PostCategories;
 use App\Models\Service;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
-use Carbon\Carbon;
-use Illuminate\Support\Facades\URL;
-use Illuminate\Support\Facades\Cache;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -46,7 +46,7 @@ class AppServiceProvider extends ServiceProvider
 
         Carbon::setLocale('id');
 
-        if (!app()->runningInConsole()) {
+        if (! app()->runningInConsole()) {
             // 🔔 Pesan belum dibaca (tanpa cache)
             View::composer(['components.admin.*', 'admin.navbar'], function ($view) {
                 $unreadMessages = Message::where('is_read', 0)->latest()->take(5)->get();
@@ -61,26 +61,25 @@ class AppServiceProvider extends ServiceProvider
                 $view->with('unreadCount', $unreadCount);
             });
 
-
             // Banner (jarang berubah) → cache 1 jam
-            View::share('banner', Cache::remember('banner', now()->addHour(), fn() => Banner::first()));
+            View::share('banner', Cache::remember('banner', now()->addHour(), fn () => Banner::first()));
 
             // User login ke navbar admin
             View::composer('components.admin.navbar', function ($view) {
                 $user = Auth::user();
-                $about = Cache::remember('about_navbar', now()->addHour(), fn() => Abouts::select('white_logo', 'favicon')->first());
+                $about = Cache::remember('about_navbar', now()->addHour(), fn () => Abouts::select('white_logo', 'favicon')->first());
                 $view->with(compact('user', 'about'));
             });
 
             // Layout admin
             View::composer('components.admin.layout', function ($view) {
-                $about = Cache::remember('about_layout', now()->addHour(), fn() => Abouts::select('favicon')->first());
+                $about = Cache::remember('about_layout', now()->addHour(), fn () => Abouts::select('favicon')->first());
                 $view->with(['about' => $about]);
             });
 
             // Kirim data User ke semua view layout
             View::composer('components.landingpage.layout', function ($view) {
-                $about = Cache::remember('about_favicon', now()->addHour(), fn() => Abouts::select('favicon')->first());
+                $about = Cache::remember('about_favicon', now()->addHour(), fn () => Abouts::select('favicon')->first());
                 $view->with(['about' => $about]);
             });
 
@@ -89,27 +88,25 @@ class AppServiceProvider extends ServiceProvider
                 $documentCategories = Cache::remember(
                     'document_categories',
                     now()->addHour(),
-                    fn() =>
-                    DocumentCategories::where('is_published', 1)->orderBy('sort_order')->get()
+                    fn () => DocumentCategories::where('is_published', 1)->orderBy('sort_order')->get()
                 );
 
                 $postCategories = Cache::remember(
                     'post_categories',
                     now()->addHour(),
-                    fn() =>
-                    PostCategories::where('is_published', 1)->orderBy('sort_order')->get()
+                    fn () => PostCategories::where('is_published', 1)->orderBy('sort_order')->get()
                 );
 
-                $about = Cache::remember('about_logo', now()->addHour(), fn() => Abouts::select('white_logo', 'black_logo')->first());
-                $menu = Cache::remember('menu', now()->addHour(), fn() => Menu::first());
-                $services = Cache::remember('services', now()->addHour(), fn() => Service::take(5)->latest()->get());
+                $about = Cache::remember('about_logo', now()->addHour(), fn () => Abouts::select('white_logo', 'black_logo')->first());
+                $menu = Cache::remember('menu', now()->addHour(), fn () => Menu::first());
+                $services = Cache::remember('services', now()->addHour(), fn () => Service::take(5)->latest()->get());
 
                 $view->with([
                     'documentCategories' => $documentCategories,
                     'postCategories' => $postCategories,
                     'about' => $about,
                     'menu' => $menu,
-                    'services' => $services
+                    'services' => $services,
                 ]);
             });
 
@@ -118,19 +115,17 @@ class AppServiceProvider extends ServiceProvider
                 $documentCategories = Cache::remember(
                     'document_categories_footer',
                     now()->addHour(),
-                    fn() =>
-                    DocumentCategories::where('is_published', 1)->orderBy('sort_order', 'asc')->get()
+                    fn () => DocumentCategories::where('is_published', 1)->orderBy('sort_order', 'asc')->get()
                 );
 
                 $postCategories = Cache::remember(
                     'post_categories_footer',
                     now()->addHour(),
-                    fn() =>
-                    PostCategories::where('is_published', 1)->orderBy('sort_order', 'asc')->get()
+                    fn () => PostCategories::where('is_published', 1)->orderBy('sort_order', 'asc')->get()
                 );
 
-                $about = Cache::remember('about_footer', now()->addHour(), fn() => Abouts::first());
-                $banner = Cache::remember('banner_footer', now()->addHour(), fn() => Banner::select('footer_background')->first());
+                $about = Cache::remember('about_footer', now()->addHour(), fn () => Abouts::first());
+                $banner = Cache::remember('banner_footer', now()->addHour(), fn () => Banner::select('footer_background')->first());
 
                 $view->with([
                     'documentCategories' => $documentCategories,

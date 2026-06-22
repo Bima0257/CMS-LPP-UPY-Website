@@ -32,7 +32,7 @@ class UserUpdateRequest extends FormRequest
             'confirm_password' => 'nullable|string|min:8|same:password',
             'role' => ['nullable', Rule::in(['admin', 'superadmin'])],
             'avatar' => 'nullable|image|file|mimes:jpeg,png,jpg|max:5000',
-            'confirm_password.same' => 'Konfirmasi password tidak cocok!'
+            'confirm_password.same' => 'Konfirmasi password tidak cocok!',
         ];
     }
 

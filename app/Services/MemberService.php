@@ -12,11 +12,12 @@ class MemberService
 {
     public function uploadFoto(?UploadedFile $file): ?string
     {
-        if (!$file) {
+        if (! $file) {
             return null;
         }
 
-        $filename = Str::uuid() . '.' . $file->getClientOriginalExtension();
+        $filename = Str::uuid().'.'.$file->getClientOriginalExtension();
+
         return $file->storeAs('members', $filename, 'public');
     }
 

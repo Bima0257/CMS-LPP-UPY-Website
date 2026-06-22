@@ -3,10 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Message;
-use Illuminate\Support\Facades\Validator;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
-use Carbon\Carbon;
+use Illuminate\Support\Facades\Validator;
 
 class MessageController extends Controller
 {
@@ -19,7 +19,6 @@ class MessageController extends Controller
             'phone' => 'required|string|max:150',
             'message' => 'required|string',
         ]);
-
 
         if ($validator->fails()) {
 
@@ -66,6 +65,7 @@ class MessageController extends Controller
     {
         $messages = Message::latest()->get();
         $title = 'Pesan Masuk';
+
         return view('admin.message.index', compact('messages', 'title'));
     }
 
@@ -79,13 +79,13 @@ class MessageController extends Controller
             $message->update(['is_read' => true]);
         }
 
-
         return response()->json($message);
     }
 
     public function deleteMessage($id)
     {
         Message::destroy($id);
+
         return back()->with('success', 'Pesan telah berhasil dihapus!');
     }
 
@@ -95,6 +95,7 @@ class MessageController extends Controller
             return back()->with('error', 'Tidak ada data pesan untuk dihapus.');
         }
         Message::truncate();
+
         return back()->with('success', 'Semua Pesan telah berhasil dihapus!');
     }
 
@@ -103,7 +104,7 @@ class MessageController extends Controller
         $count = Message::where('is_read', false)->count();
 
         return response()->json([
-            'count' => $count
+            'count' => $count,
         ]);
     }
 
@@ -116,7 +117,7 @@ class MessageController extends Controller
 
         return response()->json([
             'count' => $unreadMessages->count(),
-            'messages' => $unreadMessages
+            'messages' => $unreadMessages,
         ]);
     }
 }

@@ -9,7 +9,6 @@ use Illuminate\Support\Facades\Validator;
 
 class PostCategoriesController extends Controller
 {
-
     private function clearCategoryCache()
     {
         Cache::forget('lp_categories_all');
@@ -29,7 +28,7 @@ class PostCategoriesController extends Controller
     {
         return view('admin.posts.categories', [
             'title' => 'Post Categories',
-            'categories' => PostCategories::all()
+            'categories' => PostCategories::all(),
         ]);
     }
 
@@ -53,6 +52,7 @@ class PostCategoriesController extends Controller
 
         if ($validator->fails()) {
             $errorMessages = implode('<br>', $validator->errors()->all());
+
             return back()
                 ->withErrors($validator)
                 ->withInput()
@@ -101,13 +101,14 @@ class PostCategoriesController extends Controller
     public function update(Request $request, PostCategories $postCategories)
     {
         $validator = Validator::make($request->all(), [
-            'name' => 'required|string|max:150|unique:post_categories,name,' . $postCategories->id,
+            'name' => 'required|string|max:150|unique:post_categories,name,'.$postCategories->id,
             'is_published' => 'required|boolean',
 
         ]);
 
         if ($validator->fails()) {
             $errorMessages = implode('<br>', $validator->errors()->all());
+
             return back()
                 ->withErrors($validator)
                 ->withInput()
@@ -117,7 +118,7 @@ class PostCategoriesController extends Controller
 
         $postCategories->update([
             'name' => $request->name,
-            'is_published' => $request->is_published
+            'is_published' => $request->is_published,
         ]);
 
         Cache::forget('post_categories_footer');

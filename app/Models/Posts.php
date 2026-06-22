@@ -3,16 +3,18 @@
 namespace App\Models;
 
 use App\Traits\Searchable;
-use Illuminate\Database\Eloquent\Model;
 use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Posts extends Model
 {
-    use Searchable;
     use HasFactory, Sluggable;
+    use Searchable;
+
     protected $guarded = ['id'];
+
     protected string $searchBody = 'content';
 
     public function sluggable(): array

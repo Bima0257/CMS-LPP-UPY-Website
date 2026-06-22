@@ -3,10 +3,10 @@
 namespace Database\Factories;
 
 use App\Models\DocumentCategories;
-use Illuminate\Database\Eloquent\Factories\Factory;
-use Illuminate\Support\Str;
 use App\Models\Documents;
 use App\Models\User;
+use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Str;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Documents>
@@ -35,9 +35,9 @@ class DocumentsFactory extends Factory
         return [
             'title' => $title,
             'date' => $this->faker->date(),
-            'slug' => Str::slug($title) . '-' . $this->faker->unique()->numberBetween(1, 9999),
+            'slug' => Str::slug($title).'-'.$this->faker->unique()->numberBetween(1, 9999),
             'description' => $this->faker->paragraph(),
-            'file_path' => 'documents/sample-' . $this->faker->numberBetween(1, 10) . '.' . $ext,
+            'file_path' => 'documents/sample-'.$this->faker->numberBetween(1, 10).'.'.$ext,
             'file_mime' => $fileTypes[$ext],
             'file_extension' => $ext,
             'file_size' => $this->faker->numberBetween(100000, 5000000),

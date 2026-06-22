@@ -2,17 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Member;
-use Illuminate\Http\Request;
 use App\Http\Requests\StoreMemberRequest;
 use App\Http\Requests\UpdateMemberRequest;
+use App\Models\Member;
 use App\Services\MemberService;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 
 class MemberController extends Controller
 {
-
     protected MemberService $memberService;
 
     public function __construct(MemberService $memberService)

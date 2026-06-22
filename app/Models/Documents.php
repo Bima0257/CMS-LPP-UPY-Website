@@ -3,16 +3,18 @@
 namespace App\Models;
 
 use App\Traits\Searchable;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Documents extends Model
 {
-    use Searchable;
     use HasFactory, Sluggable;
+    use Searchable;
+
     protected $guarded = ['id'];
+
     protected string $searchBody = 'description';
 
     public function category(): BelongsTo
@@ -40,11 +42,11 @@ class Documents extends Model
         $size = $this->file_size;
 
         if ($size >= 1048576) { // >= 1MB
-            return round($size / 1048576, 2) . ' MB';
+            return round($size / 1048576, 2).' MB';
         } elseif ($size >= 1024) {
-            return round($size / 1024, 2) . ' KB';
+            return round($size / 1024, 2).' KB';
         } else {
-            return $size . ' B';
+            return $size.' B';
         }
     }
 }

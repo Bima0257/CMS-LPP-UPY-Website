@@ -3,24 +3,24 @@
 namespace App\Services;
 
 use App\Models\Carousels;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 
 class CarouselService
 {
     /** Upload gambar carousel */
     public function uploadFoto(?UploadedFile $file): ?string
     {
-        if (!$file) {
+        if (! $file) {
             return null;
         }
 
-        $filename = uniqid('carousel_') . '.' . $file->getClientOriginalExtension();
+        $filename = uniqid('carousel_').'.'.$file->getClientOriginalExtension();
+
         return $file->storeAs('carousels', $filename, 'public');
     }
-
 
     /** Store Carousel */
     public function store(array $data): Carousels
@@ -32,13 +32,13 @@ class CarouselService
             $lastOrder = Carousels::lockForUpdate()->max('sort_order') ?? 0;
 
             return Carousels::create([
-                'title'          => $data['title'],
-                'description'    => $data['description'] ?? null,
-                'btn_link'       => $data['btn_link'] ?? null,
-                'image'          => $imagePath,
-                'sort_order'     => $lastOrder + 1,
-                'is_published'   => $data['is_published'],
-                'author_id'      => Auth::id(),
+                'title' => $data['title'],
+                'description' => $data['description'] ?? null,
+                'btn_link' => $data['btn_link'] ?? null,
+                'image' => $imagePath,
+                'sort_order' => $lastOrder + 1,
+                'is_published' => $data['is_published'],
+                'author_id' => Auth::id(),
             ]);
         });
     }
@@ -53,11 +53,11 @@ class CarouselService
         }
 
         $carousel->update([
-            'title'          => $data['title'],
-            'description'    => $data['description'] ?? null,
-            'btn_link'       => $data['btn_link'] ?? null,
-            'image'          => $newImagePath ?? $carousel->image,
-            'is_published'   => $data['is_published'],
+            'title' => $data['title'],
+            'description' => $data['description'] ?? null,
+            'btn_link' => $data['btn_link'] ?? null,
+            'image' => $newImagePath ?? $carousel->image,
+            'is_published' => $data['is_published'],
         ]);
 
         return $carousel;

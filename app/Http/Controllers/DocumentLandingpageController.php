@@ -10,7 +10,6 @@ use Illuminate\Support\Facades\Cache;
 
 class DocumentLandingpageController extends Controller
 {
-
     private $icons = [
         'pdf' => 'mdi-pdf-box',
         'doc' => 'mdi-microsoft-word',
@@ -23,11 +22,10 @@ class DocumentLandingpageController extends Controller
         'default' => 'mdi-file-document',
     ];
 
-    // Document 
+    // Document
     public function documents(Request $request)
     {
         $icons = $this->icons;
-
 
         $query = Documents::with(['category', 'author'])
             ->where('is_published', 1);
@@ -49,7 +47,7 @@ class DocumentLandingpageController extends Controller
         if ($request->filled('date_from') && $request->filled('date_to')) {
             $query->whereBetween('date', [
                 $request->date_from,
-                $request->date_to
+                $request->date_to,
             ]);
         } elseif ($request->filled('date_from')) {
             $query->whereDate('date', '>=', $request->date_from);
@@ -71,16 +69,16 @@ class DocumentLandingpageController extends Controller
         $version = Cache::get('documents_version', 1);
         $category = $request->get('category', '');
         $dateFrom = $request->get('date_from', '');
-        $dateTo   = $request->get('date_to', '');
+        $dateTo = $request->get('date_to', '');
 
-        $cacheKey = 'documents_' . $version . '_' . md5(
-            $request->input('search') . '_'
-                . $request->input('page') . '_'
-                . $perPage . '_'
-                . $category . '_'
-                . $sort . '_'
-                . $dateFrom . '_'
-                . $dateTo
+        $cacheKey = 'documents_'.$version.'_'.md5(
+            $request->input('search').'_'
+                .$request->input('page').'_'
+                .$perPage.'_'
+                .$category.'_'
+                .$sort.'_'
+                .$dateFrom.'_'
+                .$dateTo
         );
 
         $all_document = Cache::remember($cacheKey, now()->addMinutes(10), function () use ($query, $perPage) {
@@ -94,6 +92,7 @@ class DocumentLandingpageController extends Controller
             ->map(function ($doc) use ($icons) {
                 $ext = strtolower($doc->file_extension);
                 $doc->icon_class = $icons[$ext] ?? $icons['default'];
+
                 return $doc;
             });
 
@@ -102,8 +101,9 @@ class DocumentLandingpageController extends Controller
         $all_document->map(function ($doc) use ($icons) {
             $ext = strtolower($doc->file_extension);
             $doc->icon_class = $icons[$ext] ?? $icons['default'];
+
             return $doc;
-        });;
+        });
 
         return view('landingpage.all-document', compact('all_document', 'documentsAll', 'title', 'categories'));
     }
@@ -111,7 +111,8 @@ class DocumentLandingpageController extends Controller
     public function categoryDocumentAll()
     {
         $categories = DocumentCategories::where('is_published', 1)->get();
-        $title =  'Semua Kategori';
+        $title = 'Semua Kategori';
+
         return view('landingpage.all-document-categories', compact('categories', 'title'));
     }
 
@@ -169,19 +170,20 @@ class DocumentLandingpageController extends Controller
 
         $version = Cache::get('documents_version', 1);
 
-        $cacheKey = 'documents_category_' . $version . '_' . $slug . '_'
-            . md5($request->input('search') . '_page_' . $request->input('page') . '_perPage_' . $perPage);
+        $cacheKey = 'documents_category_'.$version.'_'.$slug.'_'
+            .md5($request->input('search').'_page_'.$request->input('page').'_perPage_'.$perPage);
 
         $all_document = Cache::remember($cacheKey, now()->addMinutes(10), function () use ($query, $perPage) {
             return $query->latest('date')->paginate($perPage)->withQueryString();
         });
 
-        $title = 'Kategori | ' . $category->name;
+        $title = 'Kategori | '.$category->name;
 
         // Tambahkan property icon_class
         $all_document->map(function ($doc) use ($icons) {
             $ext = strtolower($doc->file_extension);
             $doc->icon_class = $icons[$ext] ?? $icons['default'];
+
             return $doc;
         });
 
@@ -194,6 +196,7 @@ class DocumentLandingpageController extends Controller
     public function download($id, DocumentDownloadService $service)
     {
         $document = Documents::findOrFail($id);
+
         return $service->download($document);
     }
 

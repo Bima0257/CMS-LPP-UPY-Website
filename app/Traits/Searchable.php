@@ -8,7 +8,9 @@ trait Searchable
 {
     public function scopeSearch($query, $keyword)
     {
-        if (!$keyword) return $query;
+        if (! $keyword) {
+            return $query;
+        }
 
         $keywordNormalized = preg_replace('/[\s\-_]+/', '', strtolower($keyword));
 
@@ -35,9 +37,9 @@ trait Searchable
 
                 // method = 'date' | 'month' | 'year'
                 match ($method) {
-                    'date'  => $q->orWhereDate('date', $value),
+                    'date' => $q->orWhereDate('date', $value),
                     'month' => $q->orWhereMonth('date', $value),
-                    'year'  => $q->orWhereYear('date', $value),
+                    'year' => $q->orWhereYear('date', $value),
                     'month_year' => $q
                         ->orWhereMonth('date', $value['month'])
                         ->whereYear('date', $value['year']),

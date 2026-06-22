@@ -16,7 +16,7 @@ class ServiceController extends Controller
     {
         return view('admin.service.index', [
             'title' => 'Layanan',
-            'services' => Service::latest()->get()
+            'services' => Service::latest()->get(),
         ]);
     }
 
@@ -43,6 +43,7 @@ class ServiceController extends Controller
         // 2️⃣ Jika validasi gagal
         if ($validator->fails()) {
             $errorMessages = implode('<br>', $validator->errors()->all());
+
             return back()
                 ->withErrors($validator)
                 ->withInput()
@@ -87,7 +88,7 @@ class ServiceController extends Controller
     {
         // 1️⃣ Validasi input
         $validator = Validator::make($request->all(), [
-            'name' => 'required|string|max:150|unique:services,name,' . $service->id,
+            'name' => 'required|string|max:150|unique:services,name,'.$service->id,
             'description' => 'nullable|string|max:5000',
             'link' => 'required|string|max:255',
         ]);
@@ -95,6 +96,7 @@ class ServiceController extends Controller
         // 2️⃣ Jika validasi gagal
         if ($validator->fails()) {
             $errorMessages = implode('<br>', $validator->errors()->all());
+
             return back()
                 ->withErrors($validator)
                 ->withInput()
@@ -124,6 +126,7 @@ class ServiceController extends Controller
         $service->delete();
 
         Cache::forget('services');
+
         // 4️⃣ Redirect sukses
         return redirect()->route('services.index')
             ->with('success', 'Layanan berhasil dihapus!');

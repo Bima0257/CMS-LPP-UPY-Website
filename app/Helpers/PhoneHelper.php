@@ -6,14 +6,14 @@ class PhoneHelper
 {
     public static function normalize(?string $phone): ?string
     {
-        if (!$phone) {
+        if (! $phone) {
             return null;
         }
 
         $phone = preg_replace('/[^0-9]/', '', $phone);
 
         if (substr($phone, 0, 2) === '08') {
-            return '628' . substr($phone, 2);
+            return '628'.substr($phone, 2);
         }
 
         if (substr($phone, 0, 2) === '62') {

@@ -18,13 +18,13 @@ class DocumentService
     public function store(array $data): Documents
     {
         // Upload file
-        if (!empty($data['file_path'])) {
+        if (! empty($data['file_path'])) {
             $fileInfo = $this->uploadDoc($data['file_path']);
             $data = array_merge($data, $fileInfo);
         }
 
         // Hash password jika protected
-        if (!empty($data['access_password'])) {
+        if (! empty($data['access_password'])) {
             $data['access_password'] = Hash::make($data['access_password']);
         }
 
@@ -36,7 +36,7 @@ class DocumentService
     public function update(Documents $documents, array $data): Documents
     {
         // Upload file baru
-        if (!empty($data['file_path'])) {
+        if (! empty($data['file_path'])) {
 
             // Hapus file lama jika ada
             if ($documents->file_path && Storage::disk('public')->exists($documents->file_path)) {
@@ -48,7 +48,7 @@ class DocumentService
         }
 
         // Jika password baru ada → hash
-        if (!empty($data['access_password'])) {
+        if (! empty($data['access_password'])) {
             $data['access_password'] = Hash::make($data['access_password']);
         } else {
             unset($data['access_password']); // jangan override password lama

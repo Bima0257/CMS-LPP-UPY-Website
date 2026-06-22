@@ -4,10 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Models\Abouts;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Validator;
-use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Facades\Cache;
 use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Validator;
 
 class AboutsController extends Controller
 {
@@ -31,10 +31,9 @@ class AboutsController extends Controller
 
         return view('admin.abouts.index', [
             'title' => 'About Setting',
-            'about' => $about
+            'about' => $about,
         ]);
     }
-
 
     public function update(Request $request, $id)
     {
@@ -43,21 +42,21 @@ class AboutsController extends Controller
 
         // 2️⃣ Validasi input
         $validator = Validator::make($request->all(), [
-            'name'        => 'nullable|string|max:150',
+            'name' => 'nullable|string|max:150',
             'description' => 'nullable|string',
-            'vision'      => 'nullable|string',
-            'mission'     => 'nullable|string',
-            'purpose'     => 'nullable|string',
-            'thumbnail'   => 'nullable|image|mimes:jpeg,png,jpg|max:5000',
-            'image'       => 'nullable|image|mimes:jpeg,png,jpg|max:5000',
-            'favicon'  => 'nullable|image|mimes:jpeg,png,jpg|max:5000',
-            'white_logo'  => 'nullable|image|mimes:jpeg,png,jpg|max:5000',
-            'black_logo'  => 'nullable|image|mimes:jpeg,png,jpg|max:5000',
-            'address'     => 'nullable|string',
-            'email'       => 'nullable|email|max:150',
-            'instagram_link'       => 'nullable|string|max:255',
-            'youtube_link'       => 'nullable|string|max:255',
-            'phone'       => 'nullable|string|max:50',
+            'vision' => 'nullable|string',
+            'mission' => 'nullable|string',
+            'purpose' => 'nullable|string',
+            'thumbnail' => 'nullable|image|mimes:jpeg,png,jpg|max:5000',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg|max:5000',
+            'favicon' => 'nullable|image|mimes:jpeg,png,jpg|max:5000',
+            'white_logo' => 'nullable|image|mimes:jpeg,png,jpg|max:5000',
+            'black_logo' => 'nullable|image|mimes:jpeg,png,jpg|max:5000',
+            'address' => 'nullable|string',
+            'email' => 'nullable|email|max:150',
+            'instagram_link' => 'nullable|string|max:255',
+            'youtube_link' => 'nullable|string|max:255',
+            'phone' => 'nullable|string|max:50',
         ]);
 
         // 3️⃣ Jika validasi gagal

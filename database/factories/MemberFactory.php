@@ -22,7 +22,7 @@ class MemberFactory extends Factory
                 'UI/UX Designer',
                 'Project Manager',
                 'Digital Marketing',
-                null
+                null,
             ]),
             'foto' => 'members/member1.jpg',
             'instagram_link' => $this->faker->optional()->url(),

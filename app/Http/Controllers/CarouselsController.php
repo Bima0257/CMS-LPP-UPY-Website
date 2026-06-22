@@ -2,13 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Carousels;
 use App\Http\Requests\StoreCarouselRequest;
 use App\Http\Requests\UpdateCarouselRequest;
+use App\Models\Carousels;
 use App\Services\CarouselService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
-use Illuminate\Support\Facades\DB;
 
 class CarouselsController extends Controller
 {
@@ -23,7 +22,7 @@ class CarouselsController extends Controller
     {
         return view('admin.carousels.index', [
             'title' => 'Carousels Managements',
-            'carousels' => Carousels::with('author')->latest()->get()
+            'carousels' => Carousels::with('author')->latest()->get(),
         ]);
     }
 
@@ -33,7 +32,7 @@ class CarouselsController extends Controller
     public function create()
     {
         return view('admin.carousels.create', [
-            'title' => 'Create Carousels'
+            'title' => 'Create Carousels',
         ]);
     }
 
@@ -64,7 +63,7 @@ class CarouselsController extends Controller
 
         return view('admin.carousels.edit', [
             'title' => 'Edit Carousels',
-            'carousel' => $carousels
+            'carousel' => $carousels,
         ]);
     }
 

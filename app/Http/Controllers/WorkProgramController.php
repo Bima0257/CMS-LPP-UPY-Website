@@ -2,22 +2,22 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\WorkProgram;
-use App\Services\WorkProgramService;
 use App\Http\Requests\StoreWorkProgramRequest;
 use App\Http\Requests\UpdateWorkProgramRequest;
+use App\Models\WorkProgram;
+use App\Services\WorkProgramService;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 
 class WorkProgramController extends Controller
 {
-
     protected $service;
 
     public function __construct(WorkProgramService $service)
     {
         $this->service = $service;
     }
+
     /**
      * Display a listing of the resource.
      */
@@ -35,7 +35,7 @@ class WorkProgramController extends Controller
 
         return view('admin.program-kerja.index', [
             'title' => 'Program Kerja',
-            'workPrograms' => $workPrograms
+            'workPrograms' => $workPrograms,
         ]);
     }
 

@@ -8,15 +8,16 @@ use Illuminate\Filesystem\Filesystem;
 class MakeTrait extends Command
 {
     protected $signature = 'make:trait {name : The name of the trait}';
+
     protected $description = 'Create a new Trait class';
 
     public function handle()
     {
         $name = $this->argument('name');
-        $filesystem = new Filesystem();
+        $filesystem = new Filesystem;
 
         // Path Traits
-        $path = app_path('Traits/' . $name . '.php');
+        $path = app_path('Traits/'.$name.'.php');
 
         // Buat folder Traits kalau belum ada
         if (! $filesystem->isDirectory(app_path('Traits'))) {
@@ -26,6 +27,7 @@ class MakeTrait extends Command
         // Cegah overwrite
         if ($filesystem->exists($path)) {
             $this->error("Trait {$name} already exists!");
+
             return Command::FAILURE;
         }
 
@@ -45,6 +47,7 @@ EOT;
         $filesystem->put($path, $stub);
 
         $this->info("Trait {$name} created successfully.");
+
         return Command::SUCCESS;
     }
 }

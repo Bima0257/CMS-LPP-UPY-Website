@@ -17,12 +17,12 @@ class AdminAuth
     public function handle(Request $request, Closure $next): Response
     {
         // Cek apakah user sudah login
-        if (!Auth::check()) {
+        if (! Auth::check()) {
             return redirect('/login')->with('error', 'Silakan login terlebih dahulu.');
         }
 
         // Jika kamu ingin membatasi hanya role admin/superadmin:
-        if (!in_array(Auth::user()->role, ['admin', 'superadmin'])) {
+        if (! in_array(Auth::user()->role, ['admin', 'superadmin'])) {
             abort(403, 'Anda tidak memiliki akses ke halaman ini.');
         }
 

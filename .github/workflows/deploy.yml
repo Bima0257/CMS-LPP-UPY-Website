@@ -16,21 +16,19 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
-
-      - name: Setup SSH
-        run: |
-          mkdir -p ~/.ssh
-          echo "${{ secrets.SSH_KEY }}" > ~/.ssh/id_ed25519
-          chmod 600 ~/.ssh/id_ed25519
+        with:
+          fetch-depth: 0
 
       - name: Deploy via SSH
-        run: |
-          ssh -i ~/.ssh/id_ed25519 \
-            -p ${{ secrets.SSH_PORT }} \
-            -o StrictHostKeyChecking=no \
-            ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} << 'EOF'
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          port: ${{ secrets.SSH_PORT }}
+          key: ${{ secrets.SSH_KEY }}
+          script: |
             cd ${{ secrets.PROJECT_PATH }}
-            git stash
+            git stash || true
             git pull origin ${{ github.ref_name }}
             composer install --no-dev --optimize-autoloader
             php artisan migrate --force
@@ -39,4 +37,3 @@ jobs:
             php artisan view:cache
             php artisan storage:link
             chmod -R 775 storage bootstrap/cache
-          EOF
